@@ -1,8 +1,9 @@
 import numpy as np
 import itertools
+from scipy.sparse import issparse
 
 class CustomGridSearchCV:
-    def __init__(self, estimator, param_grid, cv, scoring='r2'):
+    def __init__(self, estimator, param_grid, cv, scoring='f1'):
         self.estimator = estimator
         self.param_grid = param_grid
         self.cv = cv
@@ -14,19 +15,31 @@ class CustomGridSearchCV:
         self.cv_results_ = []      
 
     def _score(self, y_true, y_pred):
+        y_true = np.array(y_true).flatten()
+        y_pred = np.array(y_pred).flatten()
+        
         if self.scoring == 'r2':
-            y_true = np.array(y_true).flatten()
-            y_pred = np.array(y_pred).flatten()
             ss_res = np.sum((y_true - y_pred) ** 2)
             ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)
             return 1 - (ss_res / ss_tot) if ss_tot != 0 else 0.0
+            
         elif self.scoring == 'accuracy':
-            return np.mean(np.array(y_true) == np.array(y_pred))
+            return np.mean(y_true == y_pred)
+            
+        elif self.scoring == 'f1':
+            tp = np.sum((y_true == 1) & (y_pred == 1))
+            fp = np.sum((y_true == 0) & (y_pred == 1))
+            fn = np.sum((y_true == 1) & (y_pred == 0))
+            # F1 = 2*TP / (2*TP + FP + FN)
+            denominator = (2 * tp + fp + fn)
+            return (2 * tp) / denominator if denominator > 0 else 0.0
+            
         return 0
 
     def fit(self, X, y):
-        X = np.array(X) if not hasattr(X, 'iloc') else X
+        is_sparse = issparse(X)
         y = np.array(y) if not hasattr(y, 'iloc') else y
+        
         keys = self.param_grid.keys()
         values = self.param_grid.values()
         combinations = [dict(zip(keys, v)) for v in itertools.product(*values)]
@@ -38,9 +51,14 @@ class CustomGridSearchCV:
             fold_scores = []
             
             for train_idx, val_idx in self.cv.split(X):
-                X_train = X.iloc[train_idx] if hasattr(X, 'iloc') else X[train_idx]
+                # [BẢN VÁ]: Logic slicing an toàn cho cả Dataframe, Numpy Array và Sparse Matrix
+                if is_sparse:
+                    X_train, X_val = X[train_idx], X[val_idx]
+                else:
+                    X_train = X.iloc[train_idx] if hasattr(X, 'iloc') else X[train_idx]
+                    X_val = X.iloc[val_idx] if hasattr(X, 'iloc') else X[val_idx]
+                
                 y_train = y.iloc[train_idx] if hasattr(y, 'iloc') else y[train_idx]
-                X_val = X.iloc[val_idx] if hasattr(X, 'iloc') else X[val_idx]
                 y_val = y.iloc[val_idx] if hasattr(y, 'iloc') else y[val_idx]
                 
                 self.estimator.fit(X_train, y_train)
@@ -57,9 +75,10 @@ class CustomGridSearchCV:
                 self.best_score_ = mean_score
                 self.best_params_ = params
         
-        print(f"\nTham số TỐT NHẤT: {self.best_params_}")
-        print(f"Điểm {self.scoring} TỐT NHẤT: {self.best_score_:.4f}")
+        print(f"\n-> Tham số TỐT NHẤT: {self.best_params_}")
+        print(f"-> Điểm {self.scoring} TỐT NHẤT: {self.best_score_:.4f}")
         
+        # Huấn luyện lại model cuối cùng trên TOÀN BỘ tập train
         self.estimator.set_params(**self.best_params_)
         self.estimator.fit(X, y)
         self.best_estimator_ = self.estimator
