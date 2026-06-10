@@ -1,2 +1,4 @@
 checkpoints/
 venv/
+.venv/
+old-01-eda-preprocessing.ipynb
