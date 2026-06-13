@@ -11,8 +11,8 @@
       --ink: #1f2937;
       --muted: #667085;
       --line: #d9dee8;
-      --spam: #d94a3a;
-      --ham: #2f9d68;
+      --spam: #f8d7da;
+      --ham: #d4edda;
       --accent: #3b78c2;
       --amber: #c4852a;
       --violet: #7b5bb7;
@@ -193,6 +193,7 @@
       background: var(--violet);
     }
 
+/* Bảng preview data HAM/SPAM raw */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -200,15 +201,28 @@
       font-size: 14px;
     }
 
+    /* Định dạng hàng Spam/Ham */
+    
+    .row-ham {
+      background-color: var(--ham);
+      color: #333333; 
+    }
+
+    .row-spam {
+      background-color: var(--spam);
+      color: #333333;
+    }
+
     th, td {
       padding: 10px 12px;
+      border: 1px solid #ccc;
       border-bottom: 1px solid var(--line);
       text-align: left;
       vertical-align: top;
     }
 
     th {
-      background: #f1f4f9;
+      background: #f2f2f2;
       font-weight: 700;
     }
 
@@ -828,52 +842,52 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr class = row-ham>
             <td>ham</td>
             <td>enron / hpl actuals for nov . 28 , 2000</td>
             <td>teco tap 30 . 000 / enron ; 120 . 000 / hpl gas daily</td>
           </tr>
-          <tr>
+          <tr class = row-ham>
             <td>ham</td>
             <td>start date : 1 / 27 / 02 ; hourahead hour : 16 ;</td>
             <td>start date : 1 / 27 / 02 ; hourahead hour : 16 ; no ancillary schedules awarded . no variances detected . log messages : parsing file...</td>
           </tr>
-          <tr>
+          <tr class = row-ham>
             <td>ham</td>
             <td>re : cplex</td>
             <td>i agree . i ( or chonawee ) will go ahead and place the order for cplex . i think that this will provide us with a great set of tools...</td>
           </tr>
-          <tr>
+          <tr class = row-ham>
             <td>ham</td>
             <td>re : solarc</td>
             <td>didn &#39; t get a commitment . just told them i thought it would be impossible . original message : louise . kitchen @ enron...</td>
           </tr>
-          <tr>
+          <tr class = row-ham>
             <td>ham</td>
             <td>re : tenaska iv</td>
             <td>i tried calling you this am but your phone rolled to someone else &#39; s voicemail . can you call me when you get a chance ?...</td>
           </tr>
-          <tr>
+          <tr class = row-spam>
             <td>spam</td>
             <td>bait - excelled @ em . ca your card is waiting to be activated</td>
             <td>having problems seeing the graphics ? please go here . platinum benefit group , inc . urgent notice prior code # 1 case type : 1567...</td>
           </tr>
-          <tr>
+          <tr class = row-spam>
             <td>spam</td>
             <td>illustrator 10 clearance</td>
             <td>great deal microsoft , adobe , macromedia and many more ! check out these amazing offers : microsoft office xp pro...</td>
           </tr>
-          <tr>
+          <tr class = row-spam>
             <td>spam</td>
             <td>office xp - $ 60 defecate unreliable</td>
             <td>arrestor interface volcanos transcend fanout erring monogamous executioner applicability speared maddening tale gathered...</td>
           </tr>
-          <tr>
+          <tr class = row-spam>
             <td>spam</td>
             <td>from olsom berghart of yukos oil</td>
             <td>dear friend , i am mr olsom berghart a personal treasurer to mikhail khodorkovsky the richest man in russia...</td>
           </tr>
-          <tr>
+          <tr class = row-spam>
             <td>spam</td>
             <td>how is my girlfriend in the hospital</td>
             <td>unsubscribe andrei hedonistepstein rebelled arkansanhattiesburg second ghettoinroad syllabic...</td>
