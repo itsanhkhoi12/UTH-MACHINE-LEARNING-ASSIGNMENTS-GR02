@@ -225,3 +225,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Heavy datasets in Navies_vqd
+practice_1/Navies_vqd/data/ready_for_train/X_train_tfidf.pkl
+practice_1/Navies_vqd/data/ready_for_train/X_test_tfidf.pkl
