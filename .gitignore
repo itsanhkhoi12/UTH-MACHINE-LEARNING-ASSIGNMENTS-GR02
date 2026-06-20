@@ -232,3 +232,12 @@ practice_1/Navies_vqd/data/ready_for_train/X_test_tfidf.pkl
 
 # Heavy pickle models and data in practice_2
 practice_2/**/*.pkl
+# AI Agent configuration and guidelines
+.cursorrules
+.clinerules
+AGENT_GUIDELINES.md
+INDIVIDUAL_WORK.md
+
+# Tài liệu cá nhân của vqd (không push lên repo nhóm)
+practice_3/P3_GUIDELINES.md
+practice_3/P3_PROGRESS.md

@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>100 Mẫu Dữ Liệu Gộp Tuần - Practice 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #34d399;
+            --accent-purple: #c084fc;
+            --accent-orange: #fb923c;
+            --hover-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            width: 100%;
+        }
+
+        header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            background: linear-gradient(135deg, #38bdf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .controls-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input, select {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            padding: 10px 14px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+        }
+
+        .table-container {
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(15, 23, 42, 0.4);
+            padding: 16px 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.2s ease;
+        }
+
+        th:hover {
+            color: var(--accent-blue);
+        }
+
+        td {
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+        }
+
+        tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tr:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-category {
+            background: rgba(192, 132, 252, 0.15);
+            color: var(--accent-purple);
+            border: 1px solid rgba(192, 132, 252, 0.3);
+        }
+
+        .badge-mall {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .revenue-cell {
+            font-family: monospace;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .number-cell {
+            font-family: monospace;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .controls-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>100 Mẫu Dữ Liệu Gộp Tuần (Weekly Aggregate Data)</h1>
+            <p class="desc">Bản xem trước dữ liệu phục vụ bài toán dự báo nhu cầu hàng tồn kho của doanh nghiệp</p>
+        </header>
+
+        <div class="controls-card">
+            <div class="control-group">
+                <label for="searchInput">Tìm kiếm nhanh</label>
+                <input type="text" id="searchInput" placeholder="Nhập ngành hàng hoặc Mall..." onkeyup="filterTable()">
+            </div>
+            <div class="control-group">
+                <label for="catSelect">Lọc Ngành hàng</label>
+                <select id="catSelect" onchange="filterTable()">
+                    <option value="">-- Tất cả --</option>
+                    <option value="Books">Books</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Cosmetics">Cosmetics</option>
+                    <option value="Food & Beverage">Food & Beverage</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="Souvenir">Souvenir</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Toys">Toys</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="mallSelect">Lọc Mall</label>
+                <select id="mallSelect" onchange="filterTable()">
+                    <option value="">-- Tất cả --</option>
+                    <option value="Cevahir AVM">Cevahir AVM</option>
+                    <option value="Emaar Square Mall">Emaar Square Mall</option>
+                    <option value="Forum Istanbul">Forum Istanbul</option>
+                    <option value="Istinye Park">Istinye Park</option>
+                    <option value="Kanyon">Kanyon</option>
+                    <option value="Mall of Istanbul">Mall of Istanbul</option>
+                    <option value="Metrocity">Metrocity</option>
+                    <option value="Metropol AVM">Metropol AVM</option>
+                    <option value="Viaport Outlet">Viaport Outlet</option>
+                    <option value="Zorlu Center">Zorlu Center</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="weeklyTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Mốc Tuần</th>
+                        <th onclick="sortTable(1)">Ngành hàng</th>
+                        <th onclick="sortTable(2)">Trung tâm thương mại</th>
+                        <th onclick="sortTable(3)" style="text-align: right;">Doanh thu tuần (TL)</th>
+                        <th onclick="sortTable(4)" style="text-align: right;">Số lượng bán</th>
+                        <th onclick="sortTable(5)" style="text-align: right;">Số hóa đơn</th>
+                        <th onclick="sortTable(6)" style="text-align: right;">Tuổi TB</th>
+                        <th onclick="sortTable(7)" style="text-align: right;">Tỷ lệ Nữ</th>
+                        <th onclick="sortTable(8)" style="text-align: right;">Tỷ lệ Tiền mặt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">30.30</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">47.0</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">15.15</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">19.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">90.90</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">35.0</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">90.90</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">49.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">257.55</td>
+                        <td class="number-cell" style="text-align: right;">17</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">50.0</td>
+                        <td class="number-cell" style="text-align: right;">25.0%</td>
+                        <td class="number-cell" style="text-align: right;">75.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">196.95</td>
+                        <td class="number-cell" style="text-align: right;">13</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">49.5</td>
+                        <td class="number-cell" style="text-align: right;">75.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Metropol AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">15.15</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">61.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Viaport Outlet</span></td>
+                        <td class="revenue-cell" style="text-align: right;">75.75</td>
+                        <td class="number-cell" style="text-align: right;">5</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">28.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Zorlu Center</span></td>
+                        <td class="revenue-cell" style="text-align: right;">121.20</td>
+                        <td class="number-cell" style="text-align: right;">8</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">42.5</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">6,601.76</td>
+                        <td class="number-cell" style="text-align: right;">22</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">47.9</td>
+                        <td class="number-cell" style="text-align: right;">71.4%</td>
+                        <td class="number-cell" style="text-align: right;">14.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">5,101.36</td>
+                        <td class="number-cell" style="text-align: right;">17</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">45.8</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">16.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">8,102.16</td>
+                        <td class="number-cell" style="text-align: right;">27</td>
+                        <td class="number-cell" style="text-align: right;">8</td>
+                        <td class="number-cell" style="text-align: right;">42.2</td>
+                        <td class="number-cell" style="text-align: right;">37.5%</td>
+                        <td class="number-cell" style="text-align: right;">37.5%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">9,302.48</td>
+                        <td class="number-cell" style="text-align: right;">31</td>
+                        <td class="number-cell" style="text-align: right;">15</td>
+                        <td class="number-cell" style="text-align: right;">39.9</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">19,805.28</td>
+                        <td class="number-cell" style="text-align: right;">66</td>
+                        <td class="number-cell" style="text-align: right;">24</td>
+                        <td class="number-cell" style="text-align: right;">37.7</td>
+                        <td class="number-cell" style="text-align: right;">45.8%</td>
+                        <td class="number-cell" style="text-align: right;">41.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">24,006.40</td>
+                        <td class="number-cell" style="text-align: right;">80</td>
+                        <td class="number-cell" style="text-align: right;">24</td>
+                        <td class="number-cell" style="text-align: right;">41.9</td>
+                        <td class="number-cell" style="text-align: right;">62.5%</td>
+                        <td class="number-cell" style="text-align: right;">41.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">19,205.12</td>
+                        <td class="number-cell" style="text-align: right;">64</td>
+                        <td class="number-cell" style="text-align: right;">20</td>
+                        <td class="number-cell" style="text-align: right;">43.0</td>
+                        <td class="number-cell" style="text-align: right;">65.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Metropol AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">9,602.56</td>
+                        <td class="number-cell" style="text-align: right;">32</td>
+                        <td class="number-cell" style="text-align: right;">13</td>
+                        <td class="number-cell" style="text-align: right;">47.5</td>
+                        <td class="number-cell" style="text-align: right;">61.5%</td>
+                        <td class="number-cell" style="text-align: right;">46.2%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Viaport Outlet</span></td>
+                        <td class="revenue-cell" style="text-align: right;">5,701.52</td>
+                        <td class="number-cell" style="text-align: right;">19</td>
+                        <td class="number-cell" style="text-align: right;">9</td>
+                        <td class="number-cell" style="text-align: right;">46.0</td>
+                        <td class="number-cell" style="text-align: right;">44.4%</td>
+                        <td class="number-cell" style="text-align: right;">44.4%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Zorlu Center</span></td>
+                        <td class="revenue-cell" style="text-align: right;">6,301.68</td>
+                        <td class="number-cell" style="text-align: right;">21</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">43.5</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">162.64</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">29.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">40.66</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">58.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">447.26</td>
+                        <td class="number-cell" style="text-align: right;">11</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">40.7</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">772.54</td>
+                        <td class="number-cell" style="text-align: right;">19</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">44.4</td>
+                        <td class="number-cell" style="text-align: right;">42.9%</td>
+                        <td class="number-cell" style="text-align: right;">42.9%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">1,504.42</td>
+                        <td class="number-cell" style="text-align: right;">37</td>
+                        <td class="number-cell" style="text-align: right;">13</td>
+                        <td class="number-cell" style="text-align: right;">40.8</td>
+                        <td class="number-cell" style="text-align: right;">46.2%</td>
+                        <td class="number-cell" style="text-align: right;">46.2%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">1,463.76</td>
+                        <td class="number-cell" style="text-align: right;">36</td>
+                        <td class="number-cell" style="text-align: right;">12</td>
+                        <td class="number-cell" style="text-align: right;">44.2</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">41.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">731.88</td>
+                        <td class="number-cell" style="text-align: right;">18</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">51.2</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Metropol AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">1,016.50</td>
+                        <td class="number-cell" style="text-align: right;">25</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">53.9</td>
+                        <td class="number-cell" style="text-align: right;">42.9%</td>
+                        <td class="number-cell" style="text-align: right;">28.6%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Viaport Outlet</span></td>
+                        <td class="revenue-cell" style="text-align: right;">162.64</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">58.5</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Zorlu Center</span></td>
+                        <td class="revenue-cell" style="text-align: right;">162.64</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">51.0</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Food & Beverage</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">41.84</td>
+                        <td class="number-cell" style="text-align: right;">8</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">29.5</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Food & Beverage</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">36.61</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">40.0</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Food & Beverage</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">36.61</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">63.0</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">75.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Food & Beverage</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">162.13</td>
+                        <td class="number-cell" style="text-align: right;">31</td>
+                        <td class="number-cell" style="text-align: right;">9</td>
+                        <td class="number-cell" style="text-align: right;">35.4</td>
+                        <td class="number-cell" style="text-align: right;">77.8%</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Food & Beverage</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">120.29</td>
+                        <td class="number-cell" style="text-align: right;">23</td>
+                        <td class="number-cell" style="text-align: right;">9</td>
+                        <td class="number-cell" style="text-align: right;">42.9</td>
+                        <td class="number-cell" style="text-align: right;">77.8%</td>
+                        <td class="number-cell" style="text-align: right;">55.6%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Food & Beverage</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">156.90</td>
+                        <td class="number-cell" style="text-align: right;">30</td>
+                        <td class="number-cell" style="text-align: right;">9</td>
+                        <td class="number-cell" style="text-align: right;">48.4</td>
+                        <td class="number-cell" style="text-align: right;">11.1%</td>
+                        <td class="number-cell" style="text-align: right;">55.6%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Food & Beverage</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">203.97</td>
+                        <td class="number-cell" style="text-align: right;">39</td>
+                        <td class="number-cell" style="text-align: right;">13</td>
+                        <td class="number-cell" style="text-align: right;">48.2</td>
+                        <td class="number-cell" style="text-align: right;">92.3%</td>
+                        <td class="number-cell" style="text-align: right;">61.5%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Food & Beverage</span></td>
+                        <td><span class="badge badge-mall">Metropol AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">47.07</td>
+                        <td class="number-cell" style="text-align: right;">9</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">45.0</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Food & Beverage</span></td>
+                        <td><span class="badge badge-mall">Viaport Outlet</span></td>
+                        <td class="revenue-cell" style="text-align: right;">94.14</td>
+                        <td class="number-cell" style="text-align: right;">18</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">37.3</td>
+                        <td class="number-cell" style="text-align: right;">83.3%</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Shoes</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">600.17</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">35.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Shoes</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">4,201.19</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">36.0</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Shoes</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">7,802.21</td>
+                        <td class="number-cell" style="text-align: right;">13</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">38.0</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">25.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Shoes</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">15,004.25</td>
+                        <td class="number-cell" style="text-align: right;">25</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">54.1</td>
+                        <td class="number-cell" style="text-align: right;">57.1%</td>
+                        <td class="number-cell" style="text-align: right;">57.1%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Shoes</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">25,207.14</td>
+                        <td class="number-cell" style="text-align: right;">42</td>
+                        <td class="number-cell" style="text-align: right;">12</td>
+                        <td class="number-cell" style="text-align: right;">43.2</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                        <td class="number-cell" style="text-align: right;">58.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Shoes</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">13,203.74</td>
+                        <td class="number-cell" style="text-align: right;">22</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">46.7</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Shoes</span></td>
+                        <td><span class="badge badge-mall">Metropol AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">5,401.53</td>
+                        <td class="number-cell" style="text-align: right;">9</td>
+                        <td class="number-cell" style="text-align: right;">5</td>
+                        <td class="number-cell" style="text-align: right;">34.2</td>
+                        <td class="number-cell" style="text-align: right;">80.0%</td>
+                        <td class="number-cell" style="text-align: right;">60.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Shoes</span></td>
+                        <td><span class="badge badge-mall">Zorlu Center</span></td>
+                        <td class="revenue-cell" style="text-align: right;">2,400.68</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">38.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">58.65</td>
+                        <td class="number-cell" style="text-align: right;">5</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">58.0</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">23.46</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">54.0</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">46.92</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">63.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">70.38</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">61.5</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">46.92</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">37.7</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">129.03</td>
+                        <td class="number-cell" style="text-align: right;">11</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">46.3</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">46.92</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">30.5</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Metropol AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">70.38</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">36.5</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Viaport Outlet</span></td>
+                        <td class="revenue-cell" style="text-align: right;">35.19</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">59.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Souvenir</span></td>
+                        <td><span class="badge badge-mall">Zorlu Center</span></td>
+                        <td class="revenue-cell" style="text-align: right;">93.84</td>
+                        <td class="number-cell" style="text-align: right;">8</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">39.3</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Technology</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">2,100.00</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">54.0</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Technology</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">3,150.00</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">40.0</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Technology</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">1,050.00</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">30.0</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Technology</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">13,650.00</td>
+                        <td class="number-cell" style="text-align: right;">13</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">48.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Technology</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">21,000.00</td>
+                        <td class="number-cell" style="text-align: right;">20</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">42.3</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Technology</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">12,600.00</td>
+                        <td class="number-cell" style="text-align: right;">12</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">33.0</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Technology</span></td>
+                        <td><span class="badge badge-mall">Zorlu Center</span></td>
+                        <td class="revenue-cell" style="text-align: right;">5,250.00</td>
+                        <td class="number-cell" style="text-align: right;">5</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">51.5</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">645.12</td>
+                        <td class="number-cell" style="text-align: right;">18</td>
+                        <td class="number-cell" style="text-align: right;">5</td>
+                        <td class="number-cell" style="text-align: right;">44.2</td>
+                        <td class="number-cell" style="text-align: right;">40.0%</td>
+                        <td class="number-cell" style="text-align: right;">40.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">286.72</td>
+                        <td class="number-cell" style="text-align: right;">8</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">38.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">107.52</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">35.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">501.76</td>
+                        <td class="number-cell" style="text-align: right;">14</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">42.8</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">860.16</td>
+                        <td class="number-cell" style="text-align: right;">24</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">36.2</td>
+                        <td class="number-cell" style="text-align: right;">83.3%</td>
+                        <td class="number-cell" style="text-align: right;">33.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">896.00</td>
+                        <td class="number-cell" style="text-align: right;">25</td>
+                        <td class="number-cell" style="text-align: right;">8</td>
+                        <td class="number-cell" style="text-align: right;">50.1</td>
+                        <td class="number-cell" style="text-align: right;">62.5%</td>
+                        <td class="number-cell" style="text-align: right;">37.5%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">430.08</td>
+                        <td class="number-cell" style="text-align: right;">12</td>
+                        <td class="number-cell" style="text-align: right;">5</td>
+                        <td class="number-cell" style="text-align: right;">48.6</td>
+                        <td class="number-cell" style="text-align: right;">40.0%</td>
+                        <td class="number-cell" style="text-align: right;">40.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Metropol AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">537.60</td>
+                        <td class="number-cell" style="text-align: right;">15</td>
+                        <td class="number-cell" style="text-align: right;">5</td>
+                        <td class="number-cell" style="text-align: right;">40.8</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">40.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Viaport Outlet</span></td>
+                        <td class="revenue-cell" style="text-align: right;">71.68</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">23.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2020-12-28</td>
+                        <td><span class="badge badge-category">Toys</span></td>
+                        <td><span class="badge badge-mall">Zorlu Center</span></td>
+                        <td class="revenue-cell" style="text-align: right;">107.52</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">24.5</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">136.35</td>
+                        <td class="number-cell" style="text-align: right;">9</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">55.0</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">45.45</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">49.5</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">75.75</td>
+                        <td class="number-cell" style="text-align: right;">5</td>
+                        <td class="number-cell" style="text-align: right;">1</td>
+                        <td class="number-cell" style="text-align: right;">33.0</td>
+                        <td class="number-cell" style="text-align: right;">100.0%</td>
+                        <td class="number-cell" style="text-align: right;">0.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">166.65</td>
+                        <td class="number-cell" style="text-align: right;">11</td>
+                        <td class="number-cell" style="text-align: right;">4</td>
+                        <td class="number-cell" style="text-align: right;">48.5</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">439.35</td>
+                        <td class="number-cell" style="text-align: right;">29</td>
+                        <td class="number-cell" style="text-align: right;">8</td>
+                        <td class="number-cell" style="text-align: right;">44.2</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">37.5%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">333.30</td>
+                        <td class="number-cell" style="text-align: right;">22</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">36.1</td>
+                        <td class="number-cell" style="text-align: right;">57.1%</td>
+                        <td class="number-cell" style="text-align: right;">57.1%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">530.25</td>
+                        <td class="number-cell" style="text-align: right;">35</td>
+                        <td class="number-cell" style="text-align: right;">11</td>
+                        <td class="number-cell" style="text-align: right;">41.1</td>
+                        <td class="number-cell" style="text-align: right;">45.5%</td>
+                        <td class="number-cell" style="text-align: right;">45.5%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Metropol AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">272.70</td>
+                        <td class="number-cell" style="text-align: right;">18</td>
+                        <td class="number-cell" style="text-align: right;">6</td>
+                        <td class="number-cell" style="text-align: right;">37.7</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Viaport Outlet</span></td>
+                        <td class="revenue-cell" style="text-align: right;">181.80</td>
+                        <td class="number-cell" style="text-align: right;">12</td>
+                        <td class="number-cell" style="text-align: right;">3</td>
+                        <td class="number-cell" style="text-align: right;">43.3</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Books</span></td>
+                        <td><span class="badge badge-mall">Zorlu Center</span></td>
+                        <td class="revenue-cell" style="text-align: right;">106.05</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">2</td>
+                        <td class="number-cell" style="text-align: right;">41.5</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">15,004.00</td>
+                        <td class="number-cell" style="text-align: right;">50</td>
+                        <td class="number-cell" style="text-align: right;">14</td>
+                        <td class="number-cell" style="text-align: right;">45.3</td>
+                        <td class="number-cell" style="text-align: right;">71.4%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">10,802.88</td>
+                        <td class="number-cell" style="text-align: right;">36</td>
+                        <td class="number-cell" style="text-align: right;">13</td>
+                        <td class="number-cell" style="text-align: right;">51.3</td>
+                        <td class="number-cell" style="text-align: right;">38.5%</td>
+                        <td class="number-cell" style="text-align: right;">30.8%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">15,904.24</td>
+                        <td class="number-cell" style="text-align: right;">53</td>
+                        <td class="number-cell" style="text-align: right;">16</td>
+                        <td class="number-cell" style="text-align: right;">46.9</td>
+                        <td class="number-cell" style="text-align: right;">56.2%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">21,905.84</td>
+                        <td class="number-cell" style="text-align: right;">73</td>
+                        <td class="number-cell" style="text-align: right;">27</td>
+                        <td class="number-cell" style="text-align: right;">44.0</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                        <td class="number-cell" style="text-align: right;">37.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">64,217.12</td>
+                        <td class="number-cell" style="text-align: right;">214</td>
+                        <td class="number-cell" style="text-align: right;">68</td>
+                        <td class="number-cell" style="text-align: right;">43.2</td>
+                        <td class="number-cell" style="text-align: right;">64.7%</td>
+                        <td class="number-cell" style="text-align: right;">38.2%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">56,715.12</td>
+                        <td class="number-cell" style="text-align: right;">189</td>
+                        <td class="number-cell" style="text-align: right;">60</td>
+                        <td class="number-cell" style="text-align: right;">41.5</td>
+                        <td class="number-cell" style="text-align: right;">58.3%</td>
+                        <td class="number-cell" style="text-align: right;">46.7%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">37,810.08</td>
+                        <td class="number-cell" style="text-align: right;">126</td>
+                        <td class="number-cell" style="text-align: right;">49</td>
+                        <td class="number-cell" style="text-align: right;">40.6</td>
+                        <td class="number-cell" style="text-align: right;">55.1%</td>
+                        <td class="number-cell" style="text-align: right;">51.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Metropol AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">18,304.88</td>
+                        <td class="number-cell" style="text-align: right;">61</td>
+                        <td class="number-cell" style="text-align: right;">24</td>
+                        <td class="number-cell" style="text-align: right;">42.1</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Viaport Outlet</span></td>
+                        <td class="revenue-cell" style="text-align: right;">16,504.40</td>
+                        <td class="number-cell" style="text-align: right;">55</td>
+                        <td class="number-cell" style="text-align: right;">22</td>
+                        <td class="number-cell" style="text-align: right;">43.5</td>
+                        <td class="number-cell" style="text-align: right;">54.5%</td>
+                        <td class="number-cell" style="text-align: right;">54.5%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Clothing</span></td>
+                        <td><span class="badge badge-mall">Zorlu Center</span></td>
+                        <td class="revenue-cell" style="text-align: right;">11,403.04</td>
+                        <td class="number-cell" style="text-align: right;">38</td>
+                        <td class="number-cell" style="text-align: right;">13</td>
+                        <td class="number-cell" style="text-align: right;">44.6</td>
+                        <td class="number-cell" style="text-align: right;">46.2%</td>
+                        <td class="number-cell" style="text-align: right;">61.5%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Cevahir AVM</span></td>
+                        <td class="revenue-cell" style="text-align: right;">935.18</td>
+                        <td class="number-cell" style="text-align: right;">23</td>
+                        <td class="number-cell" style="text-align: right;">10</td>
+                        <td class="number-cell" style="text-align: right;">39.7</td>
+                        <td class="number-cell" style="text-align: right;">60.0%</td>
+                        <td class="number-cell" style="text-align: right;">40.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Emaar Square Mall</span></td>
+                        <td class="revenue-cell" style="text-align: right;">1,016.50</td>
+                        <td class="number-cell" style="text-align: right;">25</td>
+                        <td class="number-cell" style="text-align: right;">8</td>
+                        <td class="number-cell" style="text-align: right;">42.6</td>
+                        <td class="number-cell" style="text-align: right;">62.5%</td>
+                        <td class="number-cell" style="text-align: right;">62.5%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Forum Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">691.22</td>
+                        <td class="number-cell" style="text-align: right;">17</td>
+                        <td class="number-cell" style="text-align: right;">7</td>
+                        <td class="number-cell" style="text-align: right;">44.0</td>
+                        <td class="number-cell" style="text-align: right;">57.1%</td>
+                        <td class="number-cell" style="text-align: right;">57.1%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Istinye Park</span></td>
+                        <td class="revenue-cell" style="text-align: right;">1,870.36</td>
+                        <td class="number-cell" style="text-align: right;">46</td>
+                        <td class="number-cell" style="text-align: right;">15</td>
+                        <td class="number-cell" style="text-align: right;">44.5</td>
+                        <td class="number-cell" style="text-align: right;">60.0%</td>
+                        <td class="number-cell" style="text-align: right;">40.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Kanyon</span></td>
+                        <td class="revenue-cell" style="text-align: right;">3,293.46</td>
+                        <td class="number-cell" style="text-align: right;">81</td>
+                        <td class="number-cell" style="text-align: right;">25</td>
+                        <td class="number-cell" style="text-align: right;">41.5</td>
+                        <td class="number-cell" style="text-align: right;">64.0%</td>
+                        <td class="number-cell" style="text-align: right;">36.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Mall of Istanbul</span></td>
+                        <td class="revenue-cell" style="text-align: right;">2,724.22</td>
+                        <td class="number-cell" style="text-align: right;">67</td>
+                        <td class="number-cell" style="text-align: right;">24</td>
+                        <td class="number-cell" style="text-align: right;">40.3</td>
+                        <td class="number-cell" style="text-align: right;">66.7%</td>
+                        <td class="number-cell" style="text-align: right;">50.0%</td>
+                    </tr>
+                    <tr>
+                        <td>2021-01-04</td>
+                        <td><span class="badge badge-category">Cosmetics</span></td>
+                        <td><span class="badge badge-mall">Metrocity</span></td>
+                        <td class="revenue-cell" style="text-align: right;">1,707.72</td>
+                        <td class="number-cell" style="text-align: right;">42</td>
+                        <td class="number-cell" style="text-align: right;">13</td>
+                        <td class="number-cell" style="text-align: right;">43.1</td>
+                        <td class="number-cell" style="text-align: right;">38.5%</td>
+                        <td class="number-cell" style="text-align: right;">53.8%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function filterTable() {
+            var searchVal = document.getElementById("searchInput").value.toLowerCase();
+            var catVal = document.getElementById("catSelect").value;
+            var mallVal = document.getElementById("mallSelect").value;
+            
+            var table = document.getElementById("weeklyTable");
+            var trs = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            
+            for (var i = 0; i < trs.length; i++) {
+                var tds = trs[i].getElementsByTagName("td");
+                var date = tds[0].textContent.toLowerCase();
+                var cat = tds[1].textContent;
+                var mall = tds[2].textContent;
+                
+                var matchesSearch = date.includes(searchVal) || cat.toLowerCase().includes(searchVal) || mall.toLowerCase().includes(searchVal);
+                var matchesCat = catVal === "" || cat === catVal;
+                var matchesMall = mallVal === "" || mall === mallVal;
+                
+                if (matchesSearch && matchesCat && matchesMall) {
+                    trs[i].style.display = "";
+                } else {
+                    trs[i].style.display = "none";
+                }
+            }
+        }
+
+        var sortDirections = [true, true, true, true, true, true, true, true, true];
+        function sortTable(colIdx) {
+            var table = document.getElementById("weeklyTable");
+            var tbody = table.getElementsByTagName("tbody")[0];
+            var rows = Array.from(tbody.getElementsByTagName("tr"));
+            var dir = sortDirections[colIdx];
+            
+            rows.sort(function(a, b) {
+                var aText = a.getElementsByTagName("td")[colIdx].textContent;
+                var bText = b.getElementsByTagName("td")[colIdx].textContent;
+                
+                // Check if sorting numerical/percentage columns
+                if (colIdx >= 3) {
+                    var aNum = parseFloat(aText.replace(/,/g, '').replace('%', ''));
+                    var bNum = parseFloat(bText.replace(/,/g, '').replace('%', ''));
+                    return dir ? aNum - bNum : bNum - aNum;
+                }
+                
+                return dir ? aText.localeCompare(bText) : bText.localeCompare(aText);
+            });
+            
+            sortDirections[colIdx] = !dir;
+            
+            // Re-append sorted rows
+            for (var i = 0; i < rows.length; i++) {
+                tbody.appendChild(rows[i]);
+            }
+        }
+    </script>
+</body>
+</html>

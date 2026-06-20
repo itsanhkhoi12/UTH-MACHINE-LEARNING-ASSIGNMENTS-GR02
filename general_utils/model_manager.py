@@ -62,6 +62,10 @@ def generate_report(model_dir='./models'):
         elif 'MAE' in df_leaderboard.columns:
             df_leaderboard['MAE'] = pd.to_numeric(df_leaderboard['MAE'])
             df_leaderboard = df_leaderboard.sort_values(by='MAE', ascending=True).reset_index(drop=True)
+            
+        elif 'Silhouette' in df_leaderboard.columns:
+            df_leaderboard['Silhouette'] = pd.to_numeric(df_leaderboard['Silhouette'])
+            df_leaderboard = df_leaderboard.sort_values(by='Silhouette', ascending=False).reset_index(drop=True)
 
         if 'Tham số tốt nhất' in df_leaderboard.columns:
             cols = [c for c in df_leaderboard.columns if c != 'Tham số tốt nhất'] + ['Tham số tốt nhất']

@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Mẫu Dữ Liệu Đầu Tiên - Istanbul Shopping Dataset</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --table-row-hover: #293548;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Controls */
+        .controls-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Table Container */
+        .table-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #151f32;
+            padding: 1rem 1.25rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr {
+            transition: background-color 0.15s;
+        }
+
+        tr:hover {
+            background-color: var(--table-row-hover);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            text-align: center;
+        }
+
+        .badge-gender-female {
+            background-color: rgba(236, 72, 153, 0.15);
+            color: #f472b6;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .badge-gender-male {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .badge-cat {
+            font-weight: 600;
+        }
+
+        .badge-cat-technology { background-color: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-cat-shoes { background-color: rgba(139, 92, 246, 0.15); color: #8b5cf6; border: 1px solid rgba(139, 92, 246, 0.3); }
+        .badge-cat-clothing { background-color: rgba(236, 72, 153, 0.15); color: #ec4899; border: 1px solid rgba(236, 72, 153, 0.3); }
+        .badge-cat-toys { background-color: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-cat-cosmetics { background-color: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge-cat-books { background-color: rgba(6, 182, 212, 0.15); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-cat-food { background-color: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.3); }
+        .badge-cat-souvenir { background-color: rgba(244, 63, 94, 0.15); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3); }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .bold {
+            font-weight: 600;
+        }
+
+        .highlight-sales {
+            color: #34d399;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1> Istanbul Shopping Dataset </h1>
+            <p>Hiển thị 100 mẫu dữ liệu giao dịch đầu tiên từ tập dữ liệu gốc</p>
+        </header>
+
+        <!-- Summary Cards -->
+        <div class="summary-grid">
+            <div class="card">
+                <div class="card-label">Tổng doanh thu (100 dòng)</div>
+                <div class="card-value highlight-sales">79,599.75 TL</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Tuổi trung bình</div>
+                <div class="card-value">43.1 tuổi</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Giới tính (F / M)</div>
+                <div class="card-value" style="font-size: 1.5rem;">👩 60 / 👨 40</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Ngành hàng nhiều nhất</div>
+                <div class="card-value" style="font-size: 1.35rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    Clothing (31)
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Row -->
+        <div class="controls-row">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm theo ID hóa đơn, khách hàng, ngành hàng, shopping mall..." onkeyup="filterTable()">
+            </div>
+            <div class="filter-group">
+                <select id="categoryFilter" class="filter-select" onchange="filterTable()">
+                    <option value="">Tất cả ngành hàng</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="Books">Books</option>
+                    <option value="Cosmetics">Cosmetics</option>
+                    <option value="Food & Beverage">Food & Beverage</option>
+                    <option value="Toys">Toys</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Souvenir">Souvenir</option>
+                </select>
+                <select id="paymentFilter" class="filter-select" onchange="filterTable()">
+                    <option value="">Tất cả thanh toán</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Hóa đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Giới tính</th>
+                        <th class="text-right">Tuổi</th>
+                        <th>Ngành hàng</th>
+                        <th class="text-right">S.Lượng</th>
+                        <th class="text-right">Tổng Tiền</th>
+                        <th>Thanh toán</th>
+                        <th>Ngày hóa đơn</th>
+                        <th>Shopping Mall</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">1</td>
+                        <td class="bold">I138884</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C241288</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">28</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">1,500.40 TL</td>
+                        <td>Credit Card</td>
+                        <td>5/8/2022</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">2</td>
+                        <td class="bold">I317333</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C111565</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">21</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">1,800.51 TL</td>
+                        <td>Debit Card</td>
+                        <td>12/12/2021</td>
+                        <td>Forum Istanbul</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">3</td>
+                        <td class="bold">I127801</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C266599</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">20</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">300.08 TL</td>
+                        <td>Cash</td>
+                        <td>9/11/2021</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">4</td>
+                        <td class="bold">I173702</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C988172</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">66</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">3,000.85 TL</td>
+                        <td>Credit Card</td>
+                        <td>16/05/2021</td>
+                        <td>Metropol AVM</td>
+                    </tr>
+                    <tr data-category="Books" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">5</td>
+                        <td class="bold">I337046</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C189076</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">53</td>
+                        <td><span class="badge badge-cat badge-cat-books">Books</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">60.60 TL</td>
+                        <td>Cash</td>
+                        <td>24/10/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">6</td>
+                        <td class="bold">I227836</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C657758</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">28</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">1,500.40 TL</td>
+                        <td>Credit Card</td>
+                        <td>24/05/2022</td>
+                        <td>Forum Istanbul</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">7</td>
+                        <td class="bold">I121056</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C151197</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">49</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">40.66 TL</td>
+                        <td>Cash</td>
+                        <td>13/03/2022</td>
+                        <td>Istinye Park</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">8</td>
+                        <td class="bold">I293112</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C176086</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">32</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Credit Card</td>
+                        <td>13/01/2021</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">9</td>
+                        <td class="bold">I293455</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C159642</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">69</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">900.24 TL</td>
+                        <td>Credit Card</td>
+                        <td>4/11/2021</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">10</td>
+                        <td class="bold">I326945</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C283361</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">60</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Credit Card</td>
+                        <td>22/08/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">11</td>
+                        <td class="bold">I306368</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C240286</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">36</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">10.46 TL</td>
+                        <td>Cash</td>
+                        <td>25/12/2022</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Books" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">12</td>
+                        <td class="bold">I139207</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C191708</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">29</td>
+                        <td><span class="badge badge-cat badge-cat-books">Books</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">15.15 TL</td>
+                        <td>Credit Card</td>
+                        <td>28/10/2022</td>
+                        <td>Emaar Square Mall</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">13</td>
+                        <td class="bold">I640508</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C225330</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">67</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">143.36 TL</td>
+                        <td>Debit Card</td>
+                        <td>31/07/2022</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">14</td>
+                        <td class="bold">I179802</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C312861</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">25</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Cash</td>
+                        <td>17/11/2022</td>
+                        <td>Cevahir AVM</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">15</td>
+                        <td class="bold">I336189</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C555402</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">67</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Credit Card</td>
+                        <td>3/6/2022</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">16</td>
+                        <td class="bold">I688768</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C362288</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">24</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">3,000.85 TL</td>
+                        <td>Credit Card</td>
+                        <td>7/11/2021</td>
+                        <td>Viaport Outlet</td>
+                    </tr>
+                    <tr data-category="Books" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">17</td>
+                        <td class="bold">I294687</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C300786</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">65</td>
+                        <td><span class="badge badge-cat badge-cat-books">Books</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">30.30 TL</td>
+                        <td>Debit Card</td>
+                        <td>16/01/2021</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">18</td>
+                        <td class="bold">I195744</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C330667</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">42</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">15.69 TL</td>
+                        <td>Credit Card</td>
+                        <td>5/1/2022</td>
+                        <td>Zorlu Center</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">19</td>
+                        <td class="bold">I993048</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C218149</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">46</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Cash</td>
+                        <td>26/07/2021</td>
+                        <td>Metropol AVM</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">20</td>
+                        <td class="bold">I992454</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C196845</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">24</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">143.36 TL</td>
+                        <td>Cash</td>
+                        <td>7/3/2023</td>
+                        <td>Cevahir AVM</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">21</td>
+                        <td class="bold">I183746</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C220180</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">23</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">300.08 TL</td>
+                        <td>Credit Card</td>
+                        <td>15/02/2023</td>
+                        <td>Emaar Square Mall</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">22</td>
+                        <td class="bold">I412481</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C125696</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">27</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">5.23 TL</td>
+                        <td>Cash</td>
+                        <td>1/5/2021</td>
+                        <td>Cevahir AVM</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">23</td>
+                        <td class="bold">I823067</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C322947</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">52</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Credit Card</td>
+                        <td>18/06/2022</td>
+                        <td>Cevahir AVM</td>
+                    </tr>
+                    <tr data-category="Technology" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">24</td>
+                        <td class="bold">I252275</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C313348</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">44</td>
+                        <td><span class="badge badge-cat badge-cat-technology">Technology</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">5,250.00 TL</td>
+                        <td>Cash</td>
+                        <td>26/10/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Books" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">25</td>
+                        <td class="bold">I174250</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C204553</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">42</td>
+                        <td><span class="badge badge-cat badge-cat-books">Books</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">75.75 TL</td>
+                        <td>Cash</td>
+                        <td>16/12/2022</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">26</td>
+                        <td class="bold">I195396</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C285161</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">51</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">71.68 TL</td>
+                        <td>Debit Card</td>
+                        <td>16/05/2021</td>
+                        <td>Istinye Park</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">27</td>
+                        <td class="bold">I196704</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C289625</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">25</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">203.30 TL</td>
+                        <td>Credit Card</td>
+                        <td>20/04/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">28</td>
+                        <td class="bold">I217053</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C192344</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">50</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">2,400.68 TL</td>
+                        <td>Cash</td>
+                        <td>10/10/2022</td>
+                        <td>Emaar Square Mall</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">29</td>
+                        <td class="bold">I655874</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C447138</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">65</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">1,800.51 TL</td>
+                        <td>Cash</td>
+                        <td>23/08/2022</td>
+                        <td>Cevahir AVM</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">30</td>
+                        <td class="bold">I209744</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C251229</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">29</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">121.98 TL</td>
+                        <td>Credit Card</td>
+                        <td>29/04/2021</td>
+                        <td>Istinye Park</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">31</td>
+                        <td class="bold">I161949</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C159164</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">66</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">107.52 TL</td>
+                        <td>Debit Card</td>
+                        <td>4/7/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">32</td>
+                        <td class="bold">I331891</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C501658</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">23</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">300.08 TL</td>
+                        <td>Credit Card</td>
+                        <td>21/11/2021</td>
+                        <td>Emaar Square Mall</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">33</td>
+                        <td class="bold">I768348</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C176727</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">32</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">1,800.51 TL</td>
+                        <td>Credit Card</td>
+                        <td>23/02/2022</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">34</td>
+                        <td class="bold">I109053</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C232624</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">51</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">1,200.32 TL</td>
+                        <td>Debit Card</td>
+                        <td>11/7/2021</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">35</td>
+                        <td class="bold">I167211</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C164092</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">66</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">2,400.68 TL</td>
+                        <td>Credit Card</td>
+                        <td>30/08/2022</td>
+                        <td>Zorlu Center</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">36</td>
+                        <td class="bold">I339732</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C276887</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">68</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">5.23 TL</td>
+                        <td>Credit Card</td>
+                        <td>4/1/2023</td>
+                        <td>Emaar Square Mall</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">37</td>
+                        <td class="bold">I147062</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C245456</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">43</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">1,500.40 TL</td>
+                        <td>Credit Card</td>
+                        <td>21/06/2022</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">38</td>
+                        <td class="bold">I187519</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C450287</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">59</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Credit Card</td>
+                        <td>8/7/2022</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">39</td>
+                        <td class="bold">I106674</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C204279</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">54</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Cash</td>
+                        <td>27/02/2022</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">40</td>
+                        <td class="bold">I473411</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C452806</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">24</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">300.08 TL</td>
+                        <td>Cash</td>
+                        <td>19/12/2022</td>
+                        <td>Metropol AVM</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">41</td>
+                        <td class="bold">I246550</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C716788</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">49</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">15.69 TL</td>
+                        <td>Cash</td>
+                        <td>10/9/2021</td>
+                        <td>Zorlu Center</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">42</td>
+                        <td class="bold">I138674</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C155059</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">67</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">81.32 TL</td>
+                        <td>Credit Card</td>
+                        <td>14/02/2022</td>
+                        <td>Metropol AVM</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">43</td>
+                        <td class="bold">I752693</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C306662</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">48</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">121.98 TL</td>
+                        <td>Cash</td>
+                        <td>28/04/2022</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">44</td>
+                        <td class="bold">I826174</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C607615</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">40</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">2,400.68 TL</td>
+                        <td>Cash</td>
+                        <td>20/06/2022</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">45</td>
+                        <td class="bold">I296025</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C120164</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">41</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">1,800.51 TL</td>
+                        <td>Credit Card</td>
+                        <td>21/04/2022</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Books" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">46</td>
+                        <td class="bold">I117291</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C134449</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">46</td>
+                        <td><span class="badge badge-cat badge-cat-books">Books</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">75.75 TL</td>
+                        <td>Credit Card</td>
+                        <td>9/12/2022</td>
+                        <td>Zorlu Center</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">47</td>
+                        <td class="bold">I267193</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C317818</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">19</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">121.98 TL</td>
+                        <td>Credit Card</td>
+                        <td>12/1/2023</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">48</td>
+                        <td class="bold">I205366</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C241642</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">43</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">1,200.32 TL</td>
+                        <td>Debit Card</td>
+                        <td>7/11/2022</td>
+                        <td>Zorlu Center</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">49</td>
+                        <td class="bold">I269690</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C126436</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">18</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">121.98 TL</td>
+                        <td>Debit Card</td>
+                        <td>7/2/2022</td>
+                        <td>Zorlu Center</td>
+                    </tr>
+                    <tr data-category="Books" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">50</td>
+                        <td class="bold">I304265</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C653385</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">22</td>
+                        <td><span class="badge badge-cat badge-cat-books">Books</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">75.75 TL</td>
+                        <td>Debit Card</td>
+                        <td>13/06/2021</td>
+                        <td>Forum Istanbul</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">51</td>
+                        <td class="bold">I246562</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C227070</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">61</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">203.30 TL</td>
+                        <td>Cash</td>
+                        <td>23/08/2021</td>
+                        <td>Emaar Square Mall</td>
+                    </tr>
+                    <tr data-category="Books" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">52</td>
+                        <td class="bold">I202367</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C317478</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">41</td>
+                        <td><span class="badge badge-cat badge-cat-books">Books</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">45.45 TL</td>
+                        <td>Cash</td>
+                        <td>24/02/2023</td>
+                        <td>Istinye Park</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">53</td>
+                        <td class="bold">I664787</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C237330</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">53</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">81.32 TL</td>
+                        <td>Credit Card</td>
+                        <td>12/1/2023</td>
+                        <td>Istinye Park</td>
+                    </tr>
+                    <tr data-category="Technology" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">54</td>
+                        <td class="bold">I160777</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C626042</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">43</td>
+                        <td><span class="badge badge-cat badge-cat-technology">Technology</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">4,200.00 TL</td>
+                        <td>Cash</td>
+                        <td>22/02/2022</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">55</td>
+                        <td class="bold">I137794</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C133687</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">45</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">15.69 TL</td>
+                        <td>Debit Card</td>
+                        <td>12/3/2021</td>
+                        <td>Viaport Outlet</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">56</td>
+                        <td class="bold">I148377</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C841663</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">29</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">300.08 TL</td>
+                        <td>Cash</td>
+                        <td>2/1/2022</td>
+                        <td>Istinye Park</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">57</td>
+                        <td class="bold">I258195</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C213742</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">43</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">71.68 TL</td>
+                        <td>Cash</td>
+                        <td>26/11/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">58</td>
+                        <td class="bold">I300213</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C962515</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">19</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">1,200.32 TL</td>
+                        <td>Credit Card</td>
+                        <td>21/04/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">59</td>
+                        <td class="bold">I263803</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C112279</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">67</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">15.69 TL</td>
+                        <td>Cash</td>
+                        <td>23/06/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Books" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">60</td>
+                        <td class="bold">I335713</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C158837</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">36</td>
+                        <td><span class="badge badge-cat badge-cat-books">Books</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">60.60 TL</td>
+                        <td>Cash</td>
+                        <td>14/12/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">61</td>
+                        <td class="bold">I133061</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C336576</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">64</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">1,500.40 TL</td>
+                        <td>Credit Card</td>
+                        <td>9/6/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">62</td>
+                        <td class="bold">I207205</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C716161</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">33</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">300.08 TL</td>
+                        <td>Debit Card</td>
+                        <td>26/11/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">63</td>
+                        <td class="bold">I209289</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C439382</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">33</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">1,200.32 TL</td>
+                        <td>Credit Card</td>
+                        <td>5/2/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">64</td>
+                        <td class="bold">I157285</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C123427</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">66</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">1,200.32 TL</td>
+                        <td>Cash</td>
+                        <td>6/3/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">65</td>
+                        <td class="bold">I218590</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C224743</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">29</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">162.64 TL</td>
+                        <td>Debit Card</td>
+                        <td>9/5/2022</td>
+                        <td>Metropol AVM</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">66</td>
+                        <td class="bold">I181109</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C119549</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">22</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">107.52 TL</td>
+                        <td>Cash</td>
+                        <td>17/10/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">67</td>
+                        <td class="bold">I221715</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C187266</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">63</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">15.69 TL</td>
+                        <td>Cash</td>
+                        <td>22/01/2022</td>
+                        <td>Cevahir AVM</td>
+                    </tr>
+                    <tr data-category="Souvenir" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">68</td>
+                        <td class="bold">I204979</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C173084</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">24</td>
+                        <td><span class="badge badge-cat badge-cat-souvenir">Souvenir</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">58.65 TL</td>
+                        <td>Debit Card</td>
+                        <td>14/03/2021</td>
+                        <td>Istinye Park</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">69</td>
+                        <td class="bold">I115146</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C126956</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">24</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">203.30 TL</td>
+                        <td>Cash</td>
+                        <td>27/04/2022</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Technology" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">70</td>
+                        <td class="bold">I883721</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C236859</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">44</td>
+                        <td><span class="badge badge-cat badge-cat-technology">Technology</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">5,250.00 TL</td>
+                        <td>Credit Card</td>
+                        <td>19/11/2021</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">71</td>
+                        <td class="bold">I402376</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C309926</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">34</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">3,000.85 TL</td>
+                        <td>Cash</td>
+                        <td>10/9/2022</td>
+                        <td>Forum Istanbul</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">72</td>
+                        <td class="bold">I251356</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C493252</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">47</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">162.64 TL</td>
+                        <td>Cash</td>
+                        <td>4/9/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">73</td>
+                        <td class="bold">I292239</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C109871</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">38</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">26.15 TL</td>
+                        <td>Cash</td>
+                        <td>21/08/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">74</td>
+                        <td class="bold">I276526</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C136117</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">57</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">3,000.85 TL</td>
+                        <td>Debit Card</td>
+                        <td>2/10/2021</td>
+                        <td>Emaar Square Mall</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">75</td>
+                        <td class="bold">I260525</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C258404</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">67</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">107.52 TL</td>
+                        <td>Cash</td>
+                        <td>7/1/2023</td>
+                        <td>Emaar Square Mall</td>
+                    </tr>
+                    <tr data-category="Souvenir" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">76</td>
+                        <td class="bold">I870944</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C169749</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">41</td>
+                        <td><span class="badge badge-cat badge-cat-souvenir">Souvenir</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">35.19 TL</td>
+                        <td>Credit Card</td>
+                        <td>8/6/2021</td>
+                        <td>Cevahir AVM</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">77</td>
+                        <td class="bold">I739573</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C199947</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">40</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">1,500.40 TL</td>
+                        <td>Debit Card</td>
+                        <td>17/04/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">78</td>
+                        <td class="bold">I115870</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C135790</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">69</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">2,400.68 TL</td>
+                        <td>Cash</td>
+                        <td>4/9/2021</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">79</td>
+                        <td class="bold">I190444</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C606418</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">47</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">26.15 TL</td>
+                        <td>Cash</td>
+                        <td>20/07/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">80</td>
+                        <td class="bold">I309552</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C111611</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">53</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">20.92 TL</td>
+                        <td>Credit Card</td>
+                        <td>14/07/2021</td>
+                        <td>Istinye Park</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">81</td>
+                        <td class="bold">I306076</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C679476</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">40</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">71.68 TL</td>
+                        <td>Cash</td>
+                        <td>1/11/2022</td>
+                        <td>Emaar Square Mall</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">82</td>
+                        <td class="bold">I321683</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C542025</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">60</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">162.64 TL</td>
+                        <td>Credit Card</td>
+                        <td>6/1/2023</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Souvenir" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">83</td>
+                        <td class="bold">I151332</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C168491</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">30</td>
+                        <td><span class="badge badge-cat badge-cat-souvenir">Souvenir</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">23.46 TL</td>
+                        <td>Cash</td>
+                        <td>25/03/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">84</td>
+                        <td class="bold">I340014</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C169650</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">66</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Credit Card</td>
+                        <td>8/9/2022</td>
+                        <td>Istinye Park</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">85</td>
+                        <td class="bold">I249424</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C158160</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">22</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">5.23 TL</td>
+                        <td>Cash</td>
+                        <td>18/02/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">86</td>
+                        <td class="bold">I227716</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C552345</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">53</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">10.46 TL</td>
+                        <td>Cash</td>
+                        <td>22/04/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">87</td>
+                        <td class="bold">I140663</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C218383</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">52</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">1,500.40 TL</td>
+                        <td>Cash</td>
+                        <td>15/10/2022</td>
+                        <td>Zorlu Center</td>
+                    </tr>
+                    <tr data-category="Shoes" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">88</td>
+                        <td class="bold">I253242</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C309438</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">26</td>
+                        <td><span class="badge badge-cat badge-cat-shoes">Shoes</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">3,000.85 TL</td>
+                        <td>Cash</td>
+                        <td>7/4/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">89</td>
+                        <td class="bold">I108359</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C253905</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">66</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">5.23 TL</td>
+                        <td>Cash</td>
+                        <td>7/6/2022</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">90</td>
+                        <td class="bold">I195567</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C992677</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">65</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">1,200.32 TL</td>
+                        <td>Debit Card</td>
+                        <td>22/01/2023</td>
+                        <td>Metropol AVM</td>
+                    </tr>
+                    <tr data-category="Technology" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">91</td>
+                        <td class="bold">I289643</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C584700</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">43</td>
+                        <td><span class="badge badge-cat badge-cat-technology">Technology</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">2,100.00 TL</td>
+                        <td>Cash</td>
+                        <td>22/08/2022</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">92</td>
+                        <td class="bold">I722319</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C157070</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">59</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">1</td>
+                        <td class="text-right bold highlight-sales">35.84 TL</td>
+                        <td>Debit Card</td>
+                        <td>3/10/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Souvenir" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">93</td>
+                        <td class="bold">I317105</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C177975</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">30</td>
+                        <td><span class="badge badge-cat badge-cat-souvenir">Souvenir</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">58.65 TL</td>
+                        <td>Debit Card</td>
+                        <td>29/07/2021</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Cosmetics" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">94</td>
+                        <td class="bold">I215721</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C830576</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">25</td>
+                        <td><span class="badge badge-cat badge-cat-cosmetics">Cosmetics</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">81.32 TL</td>
+                        <td>Debit Card</td>
+                        <td>16/12/2022</td>
+                        <td>Metrocity</td>
+                    </tr>
+                    <tr data-category="Toys" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">95</td>
+                        <td class="bold">I154469</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C807389</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">29</td>
+                        <td><span class="badge badge-cat badge-cat-toys">Toys</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">107.52 TL</td>
+                        <td>Debit Card</td>
+                        <td>3/6/2021</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">96</td>
+                        <td class="bold">I172458</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C277842</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">19</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">2</td>
+                        <td class="text-right bold highlight-sales">600.16 TL</td>
+                        <td>Debit Card</td>
+                        <td>17/12/2021</td>
+                        <td>Cevahir AVM</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Credit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">97</td>
+                        <td class="bold">I297270</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C183011</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">62</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">5</td>
+                        <td class="text-right bold highlight-sales">1,500.40 TL</td>
+                        <td>Credit Card</td>
+                        <td>31/12/2022</td>
+                        <td>Metropol AVM</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">98</td>
+                        <td class="bold">I153930</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C567813</td>
+                        <td><span class="badge badge-gender-male">Male</span></td>
+                        <td class="text-right">39</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">15.69 TL</td>
+                        <td>Cash</td>
+                        <td>9/8/2022</td>
+                        <td>Forum Istanbul</td>
+                    </tr>
+                    <tr data-category="Clothing" data-payment="Cash">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">99</td>
+                        <td class="bold">I282854</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C282974</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">33</td>
+                        <td><span class="badge badge-cat badge-cat-clothing">Clothing</span></td>
+                        <td class="text-right">3</td>
+                        <td class="text-right bold highlight-sales">900.24 TL</td>
+                        <td>Cash</td>
+                        <td>31/07/2022</td>
+                        <td>Kanyon</td>
+                    </tr>
+                    <tr data-category="Food & Beverage" data-payment="Debit Card">
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;">100</td>
+                        <td class="bold">I869144</td>
+                        <td style="font-family: monospace; font-size: 0.9rem;">C181972</td>
+                        <td><span class="badge badge-gender-female">Female</span></td>
+                        <td class="text-right">26</td>
+                        <td><span class="badge badge-cat badge-cat-foodbeverage">Food & Beverage</span></td>
+                        <td class="text-right">4</td>
+                        <td class="text-right bold highlight-sales">20.92 TL</td>
+                        <td>Debit Card</td>
+                        <td>4/5/2021</td>
+                        <td>Mall of Istanbul</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function filterTable() {
+            var searchInput = document.getElementById("searchInput").value.toLowerCase();
+            var categoryFilter = document.getElementById("categoryFilter").value;
+            var paymentFilter = document.getElementById("paymentFilter").value;
+            
+            var table = document.getElementById("dataTable");
+            var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var category = row.getAttribute("data-category");
+                var payment = row.getAttribute("data-payment");
+                
+                var textContent = row.textContent.toLowerCase();
+                
+                var matchesSearch = textContent.indexOf(searchInput) > -1;
+                var matchesCategory = categoryFilter === "" || category === categoryFilter;
+                var matchesPayment = paymentFilter === "" || payment === paymentFilter;
+                
+                if (matchesSearch && matchesCategory && matchesPayment) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
