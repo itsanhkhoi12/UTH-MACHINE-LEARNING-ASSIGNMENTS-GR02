@@ -33,24 +33,33 @@ def generate_report(model_dir='./models'):
         return pd.DataFrame()
         
     for file_path in path.glob('*.pkl'):
-        if file_path.name.startswith(('onehot', 'standard', 'tfidf', 'vectorizer')):
+        # Bỏ qua các file transformer/preprocessor (không phải model package)
+        skip_prefixes = (
+            'onehot', 'standard', 'tfidf', 'vectorizer',
+            'pca', 'preprocessor', 'scaler', 'encoder', 'imputer', 'transformer'
+        )
+        if file_path.name.startswith(skip_prefixes):
             continue
-            
+
         try:
             package = joblib.load(file_path)
-            
+
+            # Kiểm tra đây có phải model package hợp lệ (dict) không
+            if not isinstance(package, dict) or 'model_name' not in package:
+                continue
+
             row = {
                 'Mô hình': package.get('model_name', 'Unknown'),
                 'Tham số tốt nhất': str(package.get('best_params', {}))
             }
-            
+
             metrics = package.get('metrics', {})
             for metric_name, value in metrics.items():
                 row[metric_name] = value
-                
+
             results.append(row)
         except Exception as e:
-            print(f"-> Skip file {file_path.name} vì lỗi cấu trúc gói. Chi tiết: {e}")
+            print(f"-> Skip file {file_path.name} vì lỗi đọc file. Chi tiết: {e}")
                 
     df_leaderboard = pd.DataFrame(results)
     
