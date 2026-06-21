@@ -101,7 +101,7 @@ Các tiêu chí liên kết được định nghĩa:
 Lớp `HierarchicalClusteringScratch` cài đặt đầy đủ 5 tiêu chí liên kết:
 - **single, complete, average**: Dùng ma trận khoảng cách Euclidean pairwise
 - **centroid**: Khoảng cách giữa 2 trọng tâm cụm
-- **ward**: $d(s_1, s_2) = \sqrt{\frac{2|s_1||s_2|}{|s_1|+|s_2|}} \|\mathbf{m}_{s_1} - \mathbf{m}_{s_2}\|_2$
+- **ward**: $d(s_1, s_2) = \sqrt{\frac{2n_1 n_2}{n_1+n_2}} \|\mathbf{m}_{s_1} - \mathbf{m}_{s_2}\|_2$
 
 ---
 
