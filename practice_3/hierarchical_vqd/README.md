@@ -143,15 +143,15 @@ Lớp `HierarchicalClusteringScratch` cài đặt đầy đủ 5 tiêu chí liê
 
 | Cụm | Kích thước | Tuổi TB | Kinh nghiệm TB | Gia đình TB | Tình trạng hôn nhân | Chi tiêu | Nhãn gợi ý |
 |-----|-----------|---------|---------------|------------|---------------------|---------|-----------|
-| **0** | ~367 | ~50 | ~1.8 | ~2.5 | **100% đã kết hôn** | Trung bình - Cao | 👔 Khách truyền thống ổn định |
-| **1** | ~287 | ~48 | ~2.6 | ~1.8 | **100% độc thân** | Thấp | 🧍 Độc thân tiết kiệm |
-| **2** | ~186 | **~27** | ~2.1 | **~4.4** | 92% chưa kết hôn | Thấp (96%) | 👨‍👩‍👧‍👦 Gia đình trẻ đông con |
-| **3** | ~160 | ~39 | **~8.1** | ~2.9 | Hỗn hợp | Thấp - TB | 💼 Chuyên gia kinh nghiệm |
+| **0** | 2,473 (30.7%) | ~53 | ~0.9 | ~3.0 | **100% đã kết hôn** | **Trung bình - Cao** (98%) | 👔 Khách hàng truyền thống ổn định (VIP) |
+| **1** | 1,793 (22.2%) | ~38 | **~8.2** | ~2.6 | Hỗn hợp (51% đã kết hôn) | Thấp - Trung bình (66% Low) | 💼 Chuyên gia trẻ thâm niên cao |
+| **2** | 1,953 (24.2%) | **~29** | ~1.0 | **~4.0** | **86.5% chưa kết hôn** | **Thấp (95%)** | 👨‍👩‍👧‍👦 Người trẻ độc thân / Nhân viên y tế mới |
+| **3** | 1,849 (22.9%) | ~51 | ~1.0 | **~1.8** | Hỗn hợp (58% đã kết hôn) | **Thấp (98%)** | 🧍 Khách hàng trung niên độc lập tiết kiệm |
 
 ---
 
 ## Ghi chú kỹ thuật
 
-- **Tại sao chỉ dùng 1000 mẫu?** Thuật toán scratch có độ phức tạp O(n²) → quá chậm trên 8068 mẫu đầy đủ. 1000 mẫu là con số thực tế trong nghiên cứu.
+- **Tại sao chạy trên toàn bộ 8,068 mẫu?** Chúng ta đã tối ưu hóa thành công thuật toán tự viết (Scratch) bằng ma trận hóa tính toán khoảng cách ($O(n^2)$ độ phức tạp thời gian và bộ nhớ). Nhờ đó, mô hình tự viết có thể chạy toàn bộ 8,068 mẫu trong ~12 phút trên CPU thông thường, mang lại kết quả phân tích chân thực và chính xác nhất cho toàn bộ dữ liệu.
 - **Tại sao Ward tốt hơn?** Ward tối thiểu hóa **WCSS (Within-Cluster Sum of Squares)** — cùng mục tiêu với K-Means nhưng theo cách phân cấp từ dưới lên, giúp tạo ra các cụm chặt chẽ và cân đối nhất.
 - **ARI/NMI thấp có đáng lo không?** Không. Phân cụm không giám sát tìm cấu trúc tự nhiên trong dữ liệu, không nhằm tái tạo lại nhãn phân loại. ARI > 0 cho thấy có tương quan dương yếu — điều này là chấp nhận được.
