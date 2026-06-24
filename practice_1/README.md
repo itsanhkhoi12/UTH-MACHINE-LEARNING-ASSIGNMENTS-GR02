@@ -11,7 +11,7 @@ Một doanh nghiệp đặt ra yêu cầu xây dựng hệ thống có khả nă
 * HAM: Các email hợp lệ, liên quan đến công việc và cần được xử lý.
 * SPAM: Các email không mong muốn, quảng cáo hoặc không liên quan đến hoạt động của doanh nghiệp.
 
-Mục tiêu của bài toán là áp dụng các thuật toán Học máy có giám sát (Supervised Learning) nhằm xây dựng mô hình có khả năng tự động phân loại email thành HAM hoặc SPAM dựa trên nội dung thư điện tử.
+Mục tiêu của bài toán là áp dụng các thuật toán `Supervised Learning` nhằm xây dựng mô hình có khả năng tự động phân loại email thành HAM hoặc SPAM dựa trên nội dung thư điện tử.
 
 ### Data Context
 
