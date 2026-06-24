@@ -74,7 +74,7 @@ Kết quả vòng lặp K ∈ {2, 3, 4, 5} × 5 linkages:
 
 | Hạng | Linkage | K | Silhouette Score |
 |------|---------|---|-----------------|
-| 1 | ward | 4 | **0.1530** |
+| 1 | ward | 4 | **0.1637** |
 | 2 | average | 4 | 0.1478 |
 | 3 | complete | 4 | 0.1401 |
 | ... | ... | ... | ... |
@@ -92,7 +92,7 @@ Các tiêu chí liên kết được định nghĩa:
 | **Ward** | $\sqrt{\frac{2\|s_1\|\|s_2\|}{\|s_1\|+\|s_2\|}}\|\mathbf{m}_{s_1}-\mathbf{m}_{s_2}\|_2$ | **Tối thiểu hóa WCSS** — tốt nhất |
 
 **Kết luận:** **K = 4, linkage = 'ward'** vì:
-1. Silhouette cao nhất (0.1530) với K=4 có ý nghĩa nghiệp vụ thực tế
+1. Silhouette cao nhất (0.1637) với K=4 có ý nghĩa nghiệp vụ thực tế
 2. Phân bố cụm cân đối (không có cụm outlier-dominated)
 3. Thuật toán scratch hỗ trợ Ward → so sánh 1:1 với sklearn
 
@@ -111,8 +111,8 @@ Lớp `HierarchicalClusteringScratch` cài đặt đầy đủ 5 tiêu chí liê
 
 | Hạng | Mô hình | Silhouette Score | Tham số |
 |------|---------|-----------------|---------|
-| 1 | `hierarchical_scratch_best` | **0.1530** | `n_clusters=4, linkage='ward'` |
-| 2 | `hierarchical_sklearn_best` | **0.1530** | `n_clusters=4, linkage='ward'` |
+| 1 | `hierarchical_scratch_best` | **0.1637** | `n_clusters=4, linkage='ward'` |
+| 2 | `hierarchical_sklearn_best` | **0.1637** | `n_clusters=4, linkage='ward'` |
 
 ✓ Điểm số khớp tuyệt đối → xác nhận cài đặt scratch **chính xác 100%**.
 
@@ -124,8 +124,8 @@ Lớp `HierarchicalClusteringScratch` cài đặt đầy đủ 5 tiêu chí liê
 
 | Chỉ số | Giá trị | Ghi chú |
 |--------|---------|---------|
-| **ARI** | 0.0800 | > 0 → cụm tự nhiên có tương quan yếu với nhãn Segmentation gốc |
-| **NMI** | 0.0957 | > 0 → có chung một phần thông tin với nhãn thực |
+| **ARI** | 0.0742 | > 0 → cụm tự nhiên có tương quan yếu với nhãn Segmentation gốc |
+| **NMI** | 0.0770 | > 0 → có chung một phần thông tin với nhãn thực |
 
 > ARI/NMI thấp là bình thường — phân cụm không giám sát tự khám phá cấu trúc tự nhiên, khác với phân loại có nhãn.
 
@@ -143,10 +143,10 @@ Lớp `HierarchicalClusteringScratch` cài đặt đầy đủ 5 tiêu chí liê
 
 | Cụm | Kích thước | Tuổi TB | Kinh nghiệm TB | Gia đình TB | Tình trạng hôn nhân | Chi tiêu | Nhãn gợi ý |
 |-----|-----------|---------|---------------|------------|---------------------|---------|-----------|
-| **0** | 2,473 (30.7%) | ~53 | ~0.9 | ~3.0 | **100% đã kết hôn** | **Trung bình - Cao** (98%) | 👔 Khách hàng truyền thống ổn định (VIP) |
-| **1** | 1,793 (22.2%) | ~38 | **~8.2** | ~2.6 | Hỗn hợp (51% đã kết hôn) | Thấp - Trung bình (66% Low) | 💼 Chuyên gia trẻ thâm niên cao |
-| **2** | 1,953 (24.2%) | **~29** | ~1.0 | **~4.0** | **86.5% chưa kết hôn** | **Thấp (95%)** | 👨‍👩‍👧‍👦 Người trẻ độc thân / Nhân viên y tế mới |
-| **3** | 1,849 (22.9%) | ~51 | ~1.0 | **~1.8** | Hỗn hợp (58% đã kết hôn) | **Thấp (98%)** | 🧍 Khách hàng trung niên độc lập tiết kiệm |
+| **0** | 2,645 (32.8%) | ~53 | ~1.0 | ~3.0 | **100% đã kết hôn** | **Trung bình - Cao** (93.6%) | 👔 Khách hàng truyền thống ổn định (VIP) |
+| **1** | 1,879 (23.3%) | ~38 | **~8.0** | ~2.6 | Hỗn hợp (50.6% đã kết hôn) | Thấp - Trung bình (67.7% Low) | 💼 Chuyên gia trẻ thâm niên cao |
+| **2** | 1,699 (21.1%) | **~29** | ~1.0 | **~4.2** | **94.7% chưa kết hôn** | **Thấp (96.2%)** | 👨‍👩‍👧‍👦 Người trẻ độc thân / Nhân viên y tế mới |
+| **3** | 1,845 (22.9%) | ~50 | ~0.8 | **~1.7** | Hỗn hợp (58% đã kết hôn) | **Thấp (97.7%)** | 🧍 Khách hàng trung niên độc lập tiết kiệm |
 
 ---
 
