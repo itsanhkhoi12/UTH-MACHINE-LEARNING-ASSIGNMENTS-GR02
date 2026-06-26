@@ -10,6 +10,26 @@ import numpy as np
 BASE_DIR = Path(__file__).resolve().parent.parent 
 DEFAULT_MODEL_DIR = BASE_DIR / 'models'
 
+def save_model_package(model, model_name, best_params, metrics, save_dir='./models'):
+    save_path = Path(save_dir)
+    
+    save_path.mkdir(parents=True, exist_ok=True)
+        
+    package = {
+        'model_name': model_name,
+        'model': model, 
+        'best_params': best_params,
+        'metrics': metrics,
+        'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    
+    file_name = f"{model_name.replace(' ', '_')}.pkl"
+    file_path = save_path / file_name
+    
+    joblib.dump(package, file_path)
+    
+    return str(file_path)
+
 def generate_report(model_dir=None, X_test=None, y_test=None, plot_cm=False, task_type='classification'):
     target_dir = Path(model_dir) if model_dir else DEFAULT_MODEL_DIR
     results = []
