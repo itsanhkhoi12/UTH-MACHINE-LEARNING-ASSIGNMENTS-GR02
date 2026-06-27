@@ -39,33 +39,40 @@ Sau vụ bê bối tài chính của Enron, một lượng lớn email nội b�
 
 ### Data Preparation
 
-* Data Preprocessing
+**Mục tiêu:** Biến đổi dữ liệu văn bản thô, phi cấu trúc thành văn bản sạch, chuẩn hóa để sẵn sàng cho mô hình học máy.
 
-  * Xử lý dữ liệu khuyết thiếu (Missing Values).
-  * Loại bỏ các email bị trùng lặp.
-  * Chuyển toàn bộ văn bản về chữ thường.
-  * Loại bỏ dấu câu và các ký tự đặc biệt.
-  * Masking URL và các số (URL -> URLTOKEN, số -> NUMTOKEN).
-  * Loại bỏ các Stopwords.
-  * Làm sạch và chuẩn hóa nội dung email.
-  * Kết hợp hai cột `Subject` và `Body` thành một thuộc tính văn bản duy nhất là `Text`.
+* **Data Cleaning:**
+  * **Xử lý khuyết thiếu & Trùng lặp:** Điền khuyết thiếu từ bước EDA và loại bỏ các email bị trùng lặp nội dung.
+  * **Hợp nhất Đặc trưng (Feature Merging):** Ghép cột `Subject` và `Message` thành một đặc trưng duy nhất là `Full_Text`, sau đó loại bỏ 2 cột gốc.
+  * **Masking Dữ liệu (Regex):** 
+    * Che giấu các liên kết web thành `URLTOKEN`.
+    * Che giấu các con số và ký hiệu tiền tệ thành `NUMTOKEN`.
+  * **Chuẩn hóa cơ bản:** Chuyển toàn bộ văn bản về chữ thường (Lowercasing); xóa bỏ các thẻ HTML nhúng trong email; loại bỏ dấu câu, ký tự đặc biệt và chuẩn hóa khoảng trắng.
 
-### Feature Engineering
+* **Text Transformation:**
+  * **Tokenization:** Tách văn bản thành các từ vựng đơn lẻ (tokens).
+  * **POS Tagging:** Gắn thẻ từ loại (Danh từ, động từ...) để cung cấp ngữ cảnh cho bước chuẩn hóa từ.
+  * **Lemmatization:** Đưa các từ vựng về nguyên bản từ điển (VD: *running* $\rightarrow$ *run*).
+  * **Custom Stopwords Removal:** Xóa bỏ các từ dừng tiếng Anh (NLTK) và **đặc biệt xóa bỏ các từ vựng mang tính nội bộ của Enron** (VD: *enron, ect, hou, re...*) được phát hiện trong bước EDA. Bước này giúp mô hình triệt tiêu hoàn toàn **Domain Bias**.
+* **Label Encoding & Data Checkpoint:**
+  * **Mã hóa nhãn mục tiêu:** Chuyển đổi thuộc tính nhãn phân loại từ dạng chữ sang dạng số nhị phân: **Spam $\rightarrow$ 1** và **Ham $\rightarrow$ 0** để sẵn sàng cho các thuật toán học có giám sát tính toán toán học.
+  * **Xuất dữ liệu trung gian:** Trích lọc và đóng gói dữ liệu sau tiền xử lý thành một file CSV lưu trữ tập trung gồm 4 cột đặc trưng cốt lõi: `Cleaned_Message` (văn bản đã làm sạch), `Message_Length` (độ dài gốc), `Punct_Count` (số dấu câu gốc), và `Label` (nhãn đã mã hóa)
 
-* Tạo mới đặc trưng: xây dựng thuộc tính mới `Punctuation_Ratio` (Tỉ lệ `Punctuation Words` xuất hiện trong `body` content)
+### Feature Engineering (Kỹ sư Đặc trưng)
 
-* Chia dữ liệu train/test theo tỉ lệ 8/2. 
+**Mục tiêu:** Chuyển đổi dữ liệu chữ và số liệu thô thành ma trận toán học.
 
-* Trích xuất đặc trưng
-
-  * Áp dụng thuật toán TF-IDF (Term Frequency - Inverse Document Frequency) để chuyển đổi thuộc tính `Text` thành ma trận trọng số từ vựng dưới dạng số.
-
-* Biến đổi đặc trưng
-
-  * Áp dụng phép biến đổi Logarithm cho thuộc tính `Punctuation_Ratio` nhằm giảm hiện tượng lệch phải (Right-Skewed Distribution) do một số email chứa mật độ dấu câu quá lớn.
-  * Áp dụng Min-Max Scaling cho thuộc tính đã được Log Transform để đưa dữ liệu về khoảng giá trị `[0, 1]`.
-  * Chỉ thực hiện `fit` trên tập huấn luyện và sử dụng cùng tham số đó để `transform` cho tập kiểm thử nhằm tránh hiện tượng Data Leakage.
-Trích
+* **Feature Creation:**
+  * Xây dựng thuộc tính mới `Punctuation_Ratio = Punct_Count / Message_Length` (2 cột đếm này được trích xuất từ văn bản gốc TRƯỚC KHI thực hiện bước làm sạch xóa dấu câu) để bắt hành vi lạm dụng ký tự đặc biệt của lừa đảo
+  * **Loại bỏ 2 biến gốc** (`Punct_Count` và `Message_Length`) để chống hiện tượng Đa cộng tuyến và tối ưu hóa bộ nhớ RAM.
+* **Data Split:** Chia Train/Test theo tỷ lệ 80/20 trước khi thực hiện Feature Extraction để chống hiện tượng Data Leakage.
+* **Feature Extraction:**
+  * Sử dụng thuật toán **TF-IDF (Term Frequency - Inverse Document Frequency)** để chuyển đổi cột văn bản thành ma trận trọng số từ vựng (Chỉ `fit_transform` trên tập Train và `transform` trên tập Test).
+* **Feature Transformation:**
+  * Sử dụng phép biến đổi Logarit (`Log-Transform`) cho cột `Punctuation_Ratio` nhằm giảm hiện tượng lệch phải.
+  * Sử dụng `Min-Max Scaling` cho cột Ratio (sau khi log) để ép dữ liệu về khoảng `[0, 1]`, đồng bộ hệ quy chiếu với ma trận TF-IDF.
+* **Hợp nhất dữ liệu:** 
+  * Ghép nối ma trận thưa TF-IDF và cột Ratio đã scale để tạo thành ma trận đầu vào hoàn chỉnh `X_train_final` và `X_test_final` sẵn sàng nạp vào mô hình phân loại.
 
 
 ### Implement Model From Scratch
@@ -115,6 +122,8 @@ Các mô hình được đánh giá dựa trên các chỉ số:
 * Recall
 * F1-Score
 * Confusion Matrix
+* True Positive Rate (TPR - Recall)
+* False Positive Rate (FPR - Tỷ lệ báo nhầm)
 
 Sau quá trình đánh giá, tiến hành so sánh hiệu suất giữa các mô hình nhằm xác định thuật toán phù hợp nhất đối với bài toán phân loại Email HAM/SPAM.
 
