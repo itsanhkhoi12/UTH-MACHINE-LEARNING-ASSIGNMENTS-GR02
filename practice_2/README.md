@@ -2,12 +2,9 @@
 ## Workflow of Machine Learning Pipeline
 
 ### **1. Define Problem**
-- Một tập đoàn bán lẻ quản lý chuỗi cửa hàng phân phối tại 10 trung tâm thương mại sầm uất nhất Istanbul (Thổ Nhĩ Kỳ) đang cần giải quyết bài toán quản lý luân chuyển hàng hóa và dòng tiền. Họ muốn dự đoán Doanh thu của từng giao dịch dựa trên thông tin nhân khẩu học của khách hàng và bối cảnh mua sắm.Việc dự đoán được mức chi tiêu này sẽ giúp phía doanh nghiệp đạt được 2 mục tiêu chiến lược:
-    - **Tối ưu hóa hàng tồn kho:** Phân bổ chính xác số lượng và loại hàng hóa (Ví dụ: Công nghệ, Quần áo, Thực phẩm) cho từng trung tâm thương mại tại từng thời điểm cụ thể, nhằm giảm chi phí lưu kho và tránh tình trạng "cháy hàng"
-    - **Chiến lược Marketing:** Thiết kế các chương trình khuyến mãi cá nhân hóa nhắm đúng vào tệp khách hàng tiềm năng (dựa trên độ tuổi, giới tính, phương thức thanh toán) để tối đa hóa lợi nhuận
 
 ### **2. Collect Data**
-Bộ dữ liệu bao gồm `99,457` mẫu giao dịch (hóa đơn) với 10 cột thông tin chi tiết (Data Source: [Kaggle](https://www.kaggle.com/datasets/mehmettahiraslan/customer-shopping-dataset))
+Data Source: [Kaggle](https://www.kaggle.com/datasets/mohammadtalib786/retail-sales-dataset/data)
 
 **Các biến đặc trưng (Feaures - X):**
 
