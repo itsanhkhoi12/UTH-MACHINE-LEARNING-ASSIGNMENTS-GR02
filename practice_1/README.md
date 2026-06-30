@@ -24,6 +24,8 @@ Sau vụ bê bối tài chính của Enron, một lượng lớn email nội b�
 
 ### Load dataset/EDA
 
+**Mục tiêu:** Hiểu rõ cấu trúc dữ liệu, đánh giá chất lượng, xử lý các giá trị khuyết thiếu và ngoại lai (outliers) nhằm tạo tiền đề vững chắc cho các bước tiền xử lý tiếp theo.
+
 * Data Preview:
 
   * Link dataset: Dataset được thu thập từ [GitHub](https://github.com/MWiechmann/enron_spam_data)
@@ -58,9 +60,9 @@ Sau vụ bê bối tài chính của Enron, một lượng lớn email nội b�
   * **Mã hóa nhãn mục tiêu:** Chuyển đổi thuộc tính nhãn phân loại từ dạng chữ sang dạng số nhị phân: **Spam $\rightarrow$ 1** và **Ham $\rightarrow$ 0** để sẵn sàng cho các thuật toán học có giám sát tính toán toán học.
   * **Xuất dữ liệu trung gian:** Trích lọc và đóng gói dữ liệu sau tiền xử lý thành một file CSV lưu trữ tập trung gồm 4 cột đặc trưng cốt lõi: `Cleaned_Message` (văn bản đã làm sạch), `Message_Length` (độ dài gốc), `Punct_Count` (số dấu câu gốc), và `Label` (nhãn đã mã hóa)
 
-### Feature Engineering (Kỹ sư Đặc trưng)
+### Feature Engineering
 
-**Mục tiêu:** Chuyển đổi dữ liệu chữ và số liệu thô thành ma trận toán học.
+**Mục tiêu:** Chuyển đổi dữ liệu chữ và số liệu thô thành ma trận đặc trưng
 
 * **Feature Creation:**
   * Xây dựng thuộc tính mới `Punctuation_Ratio = Punct_Count / Message_Length` (2 cột đếm này được trích xuất từ văn bản gốc TRƯỚC KHI thực hiện bước làm sạch xóa dấu câu) để bắt hành vi lạm dụng ký tự đặc biệt của lừa đảo
