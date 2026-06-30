@@ -7,7 +7,7 @@
     - **Chiến lược Marketing:** Thiết kế các chương trình khuyến mãi cá nhân hóa nhắm đúng vào tệp khách hàng tiềm năng (dựa trên độ tuổi, giới tính, phương thức thanh toán) để tối đa hóa lợi nhuận
 
 ### **2. Collect Data**
-Bộ dữ liệu bao gồm `99,457` mẫu giao dịch (hóa đơn) với 10 cột thông tin chi tiết.
+Bộ dữ liệu bao gồm `99,457` mẫu giao dịch (hóa đơn) với 10 cột thông tin chi tiết (Data Source: [Kaggle](https://www.kaggle.com/datasets/mehmettahiraslan/customer-shopping-dataset))
 
 **Các biến đặc trưng (Feaures - X):**
 
@@ -30,7 +30,7 @@ Bộ dữ liệu bao gồm `99,457` mẫu giao dịch (hóa đơn) với 10 cộ
 |price|Giá trị của đơn hàng (Đại diện cho Doanh thu/Revenue). Đây là biến số liên tục|
 
 ### **3. Exploratory Data Analysis (EDA)**
-**Mục tiêu cốt lõi:** Khám phá cấu trúc bộ dữ liệu, phát hiện các quy luật, xu hướng ẩn, và nhận diện những điểm bất thường. Đánh giá mối tương quan giữa các biến độc lập và biến mục tiêu (Doanh thu) để tạo tiền đề logic và thống kê vững chắc cho các bước tiền xử lý và chọn lọc đặc trưng sau này.
+**Mục tiêu :** Khám phá cấu trúc bộ dữ liệu, phát hiện các quy luật, xu hướng ẩn, và nhận diện những điểm bất thường. Đánh giá mối tương quan giữa các biến độc lập và biến mục tiêu (Doanh thu) để tạo tiền đề logic và thống kê vững chắc cho các bước tiền xử lý và chọn lọc đặc trưng sau này.
 #### **Data Overview**
 - Kiểm tra tổng số lượng mẫu (samples) và số lượng đặc trưng (features)
 - Kiểm tra kiểu dữ liệu (data type) của từng cột
@@ -57,7 +57,7 @@ Bộ dữ liệu bao gồm `99,457` mẫu giao dịch (hóa đơn) với 10 cộ
 - Sử dụng phương pháp IQR để đếm số lượng hóa đơn có giá trị "bất thường" (mua quá nhiều hoặc giá quá cao)
 
 ### **4. Data Preprocessing**
-**Mục tiêu cốt lõi:** Xử lý triệt để các vấn đề của dữ liệu thô (nhiễu, lỗi định dạng, thiếu sót, trùng lặp) nhằm tạo ra một bộ dữ liệu sạch, đồng nhất và chuẩn xác. Đảm bảo mô hình không bị "nhiễu" bởi các dữ liệu phi logic hoặc sai sót trong quá trình thu thập.
+**Mục tiêu :** Xử lý triệt để các vấn đề của dữ liệu thô (nhiễu, lỗi định dạng, thiếu sót, trùng lặp) nhằm tạo ra một bộ dữ liệu sạch, đồng nhất và chuẩn xác. Đảm bảo mô hình không bị "nhiễu" bởi các dữ liệu phi logic hoặc sai sót trong quá trình thu thập.
 
 Các bước thực hiện:
 - **Data Cleaning:**
@@ -69,7 +69,7 @@ Các bước thực hiện:
     - Xử lý Outlier: Dùng phương pháp IQR để phát hiện và Cắt tỉa/Xóa bỏ các hóa đơn có giá trị dị biệt, giúp làm sạch dữ liệu trước khi đưa vào mô hình
 
 ### **5. Feature Engineering**
-**Mục tiêu cốt lõi:**
+**Mục tiêu :**
 - Tạo ra các biến mới để mô hình bắt được các quy luật mua sắm phức tạp
 - Loại bỏ các cột không mang thông tin để giảm nhiễu
 - Giảm chiều dữ liệu và chuẩn hóa thang đo giúp thuật toán hội tụ nhanh hơn
@@ -83,17 +83,17 @@ Các bước thực hiện:
     - **Rời rạc hóa (Binning):** Chuyển đổi cột age (tuổi từ 18-90) thành các nhóm (Bins) như: Gen Z (<25), Millennials (25-40), Gen X (41-60), Boomers (>60). Việc này giúp mô hình dễ dàng học được sự khác biệt về chi tiêu giữa các thế hệ thay vì coi tuổi tác là một đường thẳng tuyến tính
 - **Feature Selection:** Loại bỏ các cột không mang thông tin dự báo (invoice_no, customer_id, invoice_date) và các biến phân loại gây nhiễu (shopping_mall, gender, payment_method)
 - **Encoding Categorical Variables:** Đưa các biến phân loại (category, age_group) qua bộ One-Hot Encoding (OHE) để chuyển đổi thành ma trận nhị phân
-- **Scaling (Chuẩn hóa thang đo):** Chuẩn hóa Standardization (Z-score) cho các biến số liên tục để kéo Mean = 0 và Std = 1. Việc này giúp thuật toán Gradient Descent trong Ridge Regression không bị chệch hướng bởi các biến có giá trị quá lớn
+- **Scaling (Chuẩn hóa thang đo):** Chuẩn hóa Standardization (Z-score) cho các biến số liên tục để kéo Mean = 0 và Std = 1. Việc này giúp thuật toán Gradient Descent trong Linear Regression không bị chệch hướng bởi các biến có giá trị quá lớn
 
 ### **6. Model Training**
-Triển khai huấn luyện các thuật toán Hồi quy, kết hợp với các kỹ thuật kiểm định và tinh chỉnh để đạt được hiệu năng dự báo tốt nhất:
+Triển khai huấn luyện các thuật toán Regression, kết hợp với các kỹ thuật kiểm định và tinh chỉnh để đạt được hiệu năng dự đoán tốt nhất:
 - **Huấn luyện mô hình cơ sở:**
     - Linear Regression
     - Decision Tree Regression
     - Random Forest Regression
     - Gradient Boosting Regression
 - **Cross Validation:** Áp dụng kỹ thuật K-Fold Cross Validation (ví dụ: K=5) trên tập Huấn luyện để kiểm tra tính ổn định của mô hình, đảm bảo kết quả không bị phụ thuộc vào cách chia dữ liệu và giảm thiểu rủi ro Overfitting
-- **Hyperparameter Optimization - HPO:** Sử dụng kỹ thuật như GridSearchCV để dò tìm tự động không gian siêu tham số, từ đó tìm ra cấu hình tốt nhất (best parameters) cho các thuật toán phức tạp như Random Forest hay Gradient Boosting
+- **Hyperparameter Optimization - HPO:** Sử dụng kỹ thuật GridSearchCV để dò tìm tự động không gian siêu tham số, từ đó tìm ra cấu hình tốt nhất (best parameters) cho các thuật toán phức tạp như Random Forest hay Gradient Boosting
 
 ### **7. Model Evaluation**
 Đánh giá chất lượng mô hình thông qua các bộ chỉ số đo lường sai số trên tập Test:
