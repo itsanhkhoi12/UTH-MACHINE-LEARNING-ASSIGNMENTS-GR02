@@ -1,9 +1,137 @@
 import numpy as np
 from dataclasses import dataclass
 
-class MLPScratch:
-    """Mô hình MLP custom 
-    """
+class MultiLayerPerceptronRegression:
+    def __init__(self, layer_sizes: list, learning_rate: float = 0.01, epochs: int = 1000):
+        """
+        Khởi tạo kiến trúc mạng MLP
+        
+        Args:
+            layer_sizes (list): Danh sách số lượng nơ-ron mỗi layer
+                                Ví dụ Lab 4: [13, 16, 16, 1] -> 13 Input, 
+                                2 Hidden layers (16 nơ-ron mỗi lớp), 1 Output (giá nhà dự đoán)
+            learning_rate (float): Tốc độ học (alpha)
+            epochs (int): Số vòng lặp huấn luyện
+        """
+        self.layer_sizes = layer_sizes
+        self.learning_rate = learning_rate
+        self.epochs = epochs
+        
+        # Lưu trữ tham số mạng (Weights & Biases)
+        self.W = []
+        self.b = []
+        
+        self._initialize_weights()
+
+    def _initialize_weights(self):
+        """Khởi tạo ngẫu nhiên Trọng số và Bias cho toàn bộ các lớp (Xavier/He Initialization)"""
+        # Duyệt qua các cặp lớp (Input->Hidden1, Hidden1->Hidden2, ...)
+        for i in range(len(self.layer_sizes) - 1):
+            fan_in = self.layer_sizes[i]
+            fan_out = self.layer_sizes[i+1]
+            
+            # Khởi tạo He (tối ưu cho hàm ReLU)
+            weight_matrix = np.random.randn(fan_in, fan_out) * np.sqrt(2.0 / fan_in)
+            bias_vector = np.zeros((1, fan_out))
+            
+            self.W.append(weight_matrix)
+            self.b.append(bias_vector)
+
+    def _relu(self, Z: np.ndarray) -> np.ndarray:
+        return np.maximum(0, Z)
+
+    def _relu_derivative(self, Z: np.ndarray) -> np.ndarray:
+        return np.where(Z > 0, 1, 0)
+
+    def _forward_pass(self, X: np.ndarray) -> dict:
+        """
+        Thực hiện Lan truyền tiến.
+        Trả về dictionary 'cache' chứa trạng thái của toàn bộ nơ-ron ở mọi lớp để dùng cho Backward
+        """
+        cache = {'A0': X} # Lớp 0 chính là Input
+        A_prev = X
+        
+        num_layers = len(self.W)
+        
+        for l in range(num_layers):
+            # Tính tổng có trọng số: Z = A_prev * W + b
+            Z = np.dot(A_prev, self.W[l]) + self.b[l]
+            cache[f'Z{l+1}'] = Z
+            
+            if l == num_layers - 1:
+                # Lớp cuối cùng dùng hàm Linear
+                A = Z
+            else:
+                # Các lớp ẩn dùng ReLU
+                A = self._relu(Z)
+                
+            cache[f'A{l+1}'] = A
+            A_prev = A
+            
+        return cache
+
+    def _backward_pass(self, Y: np.ndarray, cache: dict) -> tuple:
+        """Thực hiện Lan truyền ngược tính Gradient bằng Giải tích ma trận"""
+        m = Y.shape[0] # Số lượng mẫu dữ liệu
+        num_layers = len(self.W)
+        
+        dW_list = [None] * num_layers
+        db_list = [None] * num_layers
+        
+        A_final = cache[f'A{num_layers}']
+        dZ = 2 * (A_final - Y) # dZ = 2 * (Y_pred - Y_true)
+        
+        # Tính Gradient cho lớp Output
+        dW_list[-1] = (1 / m) * np.dot(cache[f'A{num_layers-1}'].T, dZ)
+        db_list[-1] = (1 / m) * np.sum(dZ, axis=0, keepdims=True)
+        
+        # Lỗi dội ngược về các Hidden Layer (từ phải qua trái)
+        for l in range(num_layers - 2, -1, -1):
+            # Tính lỗi dA của lớp hiện tại do lớp sau dội về
+            dA = np.dot(dZ, self.W[l+1].T)
+            
+            # Đưa lỗi dA qua đạo hàm hàm kích hoạt ReLU
+            dZ = dA * self._relu_derivative(cache[f'Z{l+1}'])
+            
+            # Tính Gradient cho lớp hiện tại
+            dW_list[l] = (1 / m) * np.dot(cache[f'A{l}'].T, dZ)
+            db_list[l] = (1 / m) * np.sum(dZ, axis=0, keepdims=True)
+            
+        return dW_list, db_list
+
+    def fit(self, X: np.ndarray, Y: np.ndarray):
+        """Huấn luyện mô hình"""
+        self.loss_history = []
+        
+        if Y.ndim == 1:
+            Y = Y.reshape(-1, 1)
+        
+        for epoch in range(self.epochs):
+            cache = self._forward_pass(X)
+            
+            dW, db = self._backward_pass(Y, cache)
+            
+            # Cập nhật thông số
+            for l in range(len(self.W)):
+                self.W[l] -= self.learning_rate * dW[l]
+                self.b[l] -= self.learning_rate * db[l]
+                
+            A_final = cache[f'A{len(self.W)}']
+            
+            # Tính MSE
+            mse_loss = np.mean((A_final - Y) ** 2)
+            self.loss_history.append(mse_loss)
+            
+            # In ra loss mỗi 100 vòng
+            if (epoch % 100 == 0) or (epoch == self.epochs - 1):
+                mae_loss = np.mean(np.abs(A_final - Y))
+                print(f"Epoch {epoch:4d} | MSE Loss: {mse_loss:.4f} | MAE: {mae_loss:.4f}")
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        """Dự đoán giá trị liên tục"""
+        cache = self._forward_pass(X)
+        A_final = cache[f'A{len(self.W)}']
+        return A_final
 
 class LinearRegressionScratch:
     """Mô hình Linear Regression tự triển khai sử dụng Gradient Descent."""
