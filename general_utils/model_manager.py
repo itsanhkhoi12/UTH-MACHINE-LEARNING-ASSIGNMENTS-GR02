@@ -30,7 +30,7 @@ def save_model_package(model, model_name, best_params, metrics, save_dir='./mode
     
     return str(file_path)
 
-def generate_report(model_dir=None, X_test=None, y_test=None, plot_cm=False, task_type='classification'):
+def generate_report(model_dir=None, X_test=None, y_test=None, plot_cm=False, task_type='classification', is_log_target=False):
     target_dir = Path(model_dir) if model_dir else DEFAULT_MODEL_DIR
     results = []
     cm_list = []
@@ -80,7 +80,19 @@ def generate_report(model_dir=None, X_test=None, y_test=None, plot_cm=False, tas
                         model_names_for_cm.append(model_name)
                 
                 elif task_type == 'regression':
-                    pass 
+                    # Clip giá trị dự báo để tránh overflow trước khi tính toán
+                    # Giới hạn ngưỡng log an toàn (ví dụ: tối đa là 700 vì e^700 vẫn nằm trong float64)
+                    y_pred_clipped = np.clip(y_pred, -100, 700)
+    
+                    # Revert log transform an toàn
+                    y_true_eval = np.expm1(y_true) if is_log_target else y_true
+                    y_pred_eval = np.expm1(y_pred_clipped) if is_log_target else y_pred_clipped
+                    
+                    # Tính MAPE thủ công nếu chưa có trong 'metrics'
+                    if 'MAPE' not in package.get('metrics', {}):
+                        epsilon = 1e-8
+                        mape = np.mean(np.abs((y_true_eval - y_pred_eval) / (y_true_eval + epsilon))) * 100
+                        row['MAPE'] = round(mape, 4)
 
             row.update(package.get('metrics', {}))
             results.append(row)
@@ -107,12 +119,19 @@ def generate_report(model_dir=None, X_test=None, y_test=None, plot_cm=False, tas
     df = pd.DataFrame(results)
     if df.empty: return df
 
-    if 'F1_Score' in df.columns:
-        df = df.sort_values(by='F1_Score', ascending=False)
-    elif 'MAE' in df.columns:
-        df = df.sort_values(by='MAE', ascending=True)
-    elif 'Accuracy' in df.columns:
-        df = df.sort_values(by='Accuracy', ascending=False)
+    if task_type == 'classification':
+        if 'F1_Score' in df.columns:
+            df = df.sort_values(by='F1_Score', ascending=False)
+        elif 'Accuracy' in df.columns:
+            df = df.sort_values(by='Accuracy', ascending=False)
+    elif task_type == 'regression':
+        # Đối với Regression, MAPE là ưu tiên hàng đầu, sau đó đến MAE/RMSE
+        if 'MAPE' in df.columns:
+            df = df.sort_values(by='MAPE', ascending=True)
+        elif 'MAE' in df.columns:
+            df = df.sort_values(by='MAE', ascending=True)
+        elif 'MSE' in df.columns:
+            df = df.sort_values(by='MSE', ascending=True)
     
     cols = [c for c in df.columns if c != 'Tham số tốt nhất'] + ['Tham số tốt nhất']
     return df[cols].reset_index(drop=True)
