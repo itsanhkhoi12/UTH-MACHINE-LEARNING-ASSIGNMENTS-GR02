@@ -87,16 +87,34 @@ Biến `City` có nhiều nhóm, trong đó các nhóm xuất hiện nhiều nh�
 
 Biểu đồ scatter theo `Longitude` và `Latitude` cho thấy giá nhà có pattern không gian rõ rệt. Các khu vực ven biển và gần những thành phố lớn thường có giá nhà cao hơn, trong khi nhiều khu vực sâu trong đất liền có giá thấp hơn.
 
-## Data Preparation
+## Data Preprocessing
+Sau khi EDA, dữ liệu sẽ được tiền xử lý để phù hợp với các mô hình học máy. Các bước gồm:
+- **Data Split:** Tách dữ liệu Train/Test (ví dụ 80/20) ngay từ đầu để chống rò rỉ dữ liệu (Data Leakage)
+- **Remove Duplicates:** Xóa các dòng bị trùng lặp để mô hình không bị bias khi học đi học lại một mẫu giống nhau
+- **Handle Inconsistent Types:** Ép kiểu các cột dữ liệu về đúng định dạng chuẩn
+- **Handle Domain Constraints:** Ràng buộc địa lý cơ bản của California là Vĩ độ (Latitude) nằm trong khoảng ~[32.5, 42.0] và Kinh độ (Longitude) nằm trong khoảng ~[-124.3, -114.1].
+- **Handle Invalid/Noisy Data:** Chuẩn hóa chuỗi (Xóa khoảng trắng thừa, đưa về viết hoa chữ cái đầu hoặc viết thường toàn bộ)
+- **Handle Missing Values:**
+    - Với nhóm Numerical: Điền bằng Median (Trung vị) của tập Train. Không dùng Mean vì dữ liệu nhà ở thường bị lệch (Skewed) bởi các khu nhà siêu lớn
+    - Với nhóm Categorical: Điền bằng Mode (Giá trị xuất hiện nhiều nhất) hoặc gán một nhãn riêng là "Unknown" để mô hình tự học pattern của các giá trị bị thiếu này
 
-Sau khi EDA, dữ liệu sẽ được tiền xử lý để phù hợp với các mô hình học máy. Các bước dự kiến gồm:
-
-- Tách biến mục tiêu `Median_House_Value` khỏi tập đặc trưng.
-- Xử lý giá trị thiếu nếu có.
-- Mã hóa các biến phân loại như `ocean_proximity` và `City`.
-- Chuẩn hóa hoặc scale các đặc trưng số, đặc biệt cần thiết cho mô hình MLP.
-- Chia dữ liệu thành tập train và test.
-- Có thể tạo thêm một số đặc trưng mới, ví dụ số phòng trung bình trên mỗi hộ gia đình hoặc số phòng ngủ trung bình trên tổng số phòng.
+## Feature Engineering
+Các bước thực hiện bao gồm:
+- **Feature Creation:** 
+    - **Domain-specific features:**
+        - rooms_per_household = Tot_Rooms / Households (Số phòng trung bình mỗi hộ).
+        - bedrooms_per_room = Tot_Bedrooms / Tot_Rooms (Tỷ lệ phòng ngủ - Cực kỳ quan trọng vì tỷ lệ này càng cao, nhà thường càng rẻ hoặc thuộc khu chung cư).
+        - population_per_household = Population / Households (Mật độ người/hộ).
+    - **Interaction features:**
+        - luxury_index = Median_Income $\times$ rooms_per_household (Thu nhập trung bình $\times$ Số phòng trung bình/hộ)
+        - coastal_wealth_index = Median_Income / (Distance_to_coast + 1)
+        - prime_location_index = $1 / [($ Distance_to_coast $+ 1) \times ($ Distance_to_nearest_major_city $+ 1)]$
+- **Feature Transformation:** Log Transform trên các feature Population, Tot_Rooms, Tot_Bedrooms, Median_Income. Việc đưa phân phối dữ liệu về dạng gần chuẩn sẽ giúp thuật toán hội tụ nhanh hơn và tổng quát hóa tốt hơn
+- **Encoding Categorical Variables:**
+    - Đối với feature ocean_proximity thì dùng One-Hot Encoding vì nó chỉ có khoảng 5 nhãn, sau khi áp dụng thì sẽ tạo ra 5 cột nhị phân (0 hoặc 1)
+    - Đối với feature City thì buộc dùng Target Encoding trên tập Train vì nếu dùng OHE thì sẽ sinh ra hàng trăm cột, gây ra Curse of Dimensionality làm MLP và Linear bị quá tải
+- **Feature Scaling:**
+    - Dùng Standardization (Z-score) lên toàn bộ các numerical feature
 
 
 ## Modeling
