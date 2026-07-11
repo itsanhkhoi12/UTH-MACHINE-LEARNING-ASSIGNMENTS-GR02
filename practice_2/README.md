@@ -10,60 +10,55 @@ Data Source: [Kaggle](https://www.kaggle.com/datasets/mohammadtalib786/retail-sa
 
 | Tên cột | Mô tả chi tiết |
 |---------|----------------|
-|invoice_no|Mã hóa đơn (Chuỗi định danh duy nhất cho mỗi giao dịch)|
-|customer_id|Mã định danh khách hàng|
-|gender|Giới tính của khách hàng (Male / Female)|
-|age|Độ tuổi của khách hàng|
-|category|Ngành hàng của sản phẩm được mua (Clothing, Cosmetics, Technology...)|
-|quantity|Số lượng sản phẩm được mua trong đơn hàng|
-|payment_method|Phương thức thanh toán (Cash, Credit Card, Debit Card)|
-|invoice_date|Ngày thực hiện giao dịch mua sắm|
-|shopping_mall|Tên chi nhánh trung tâm thương mại (10 trung tâm lớn tại Istanbul)|
+|TransactionID|Mỗi giao dịch được định danh duy nhất, cho phép theo dõi và tham chiếu|
+|Date|Ngày diễn ra giao dịch, cung cấp thông tin chi tiết về xu hướng bán hàng theo thời gian|
+|Customer ID|Mỗi khách hàng được định danh duy nhất, cho phép phân tích tập trung vào khách hàng|
+|Gender|Giới tính của khách hàng (Nam/Nữ), cung cấp thông tin chi tiết về mô hình mua hàng dựa trên giới tính|
+|Age|Độ tuổi của khách hàng, tạo điều kiện thuận lợi cho việc phân khúc và khám phá các yếu tố ảnh hưởng liên quan đến độ tuổi|
+|Product Category|Loại sản phẩm đã mua (ví dụ: Đồ điện tử, Quần áo, Mỹ phẩm), giúp hiểu rõ hơn về sở thích sản phẩm|
+|Quantity|Số lượng đơn vị sản phẩm được mua, góp phần cung cấp thông tin chi tiết về khối lượng mua hàng|
+|Price per Unit|Giá của một đơn vị sản phẩm, hỗ trợ trong các tính toán liên quan đến tổng chi tiêu|
 
 **Biến mục tiêu (Target Variable - y):**
 
 | Tên cột | Mô tả chi tiết |
 |---------|----------------|
-|price|Giá trị của đơn hàng (Đại diện cho Doanh thu/Revenue). Đây là biến số liên tục|
+|Total Amount|Tổng giá trị tiền tệ của giao dịch đó (Đại diện cho Doanh thu/Revenue). Đây là biến số liên tục|
 
 ### **3. Exploratory Data Analysis (EDA)**
-**Mục tiêu :** Khám phá cấu trúc bộ dữ liệu, phát hiện các quy luật, xu hướng ẩn, và nhận diện những điểm bất thường. Đánh giá mối tương quan giữa các biến độc lập và biến mục tiêu (Doanh thu) để tạo tiền đề logic và thống kê vững chắc cho các bước tiền xử lý và chọn lọc đặc trưng sau này.
+**Mục tiêu :** Khám phá cấu trúc bộ dữ liệu, phát hiện các quy luật, xu hướng ẩn, và nhận diện những điểm bất thường. Đánh giá mối tương quan giữa các biến độc lập và biến mục tiêu để tạo tiền đề logic và thống kê vững chắc cho các bước tiền xử lý và chọn lọc đặc trưng sau này.
 #### **Data Overview**
 - Kiểm tra tổng số lượng mẫu (samples) và số lượng đặc trưng (features)
 - Kiểm tra kiểu dữ liệu (data type) của từng cột
 - Thống kê các đại lượng mô tả cơ bản (Mean, Min, Max, Std...) cho các biến số
 - Query một vài dòng mẫu để nắm bắt trực quan cấu trúc của dữ liệu
-
 #### **Missing Data Analysis**
 - Tính toán tỷ lệ phần trăm dữ liệu khuyết thiếu (missing values) trên từng đặc trưng riêng biệt
 - Trực quan hóa bằng biểu đồ Seaborn Heatmap để định vị cụ thể vị trí và đánh giá mức độ phân bổ của dữ liệu bị thiếu
-
 #### **Univariate Analysis**
-- **Nhóm Numerical (Tuổi, Số lượng, Giá trị đơn hàng - Đại diện cho Doanh thu):** Trực quan hóa bằng Distribution Plot để đánh giá hình dáng phân phối và độ lệch
-- **Nhóm Categorical (Giới tính, Ngành hàng, Thanh toán):** Trực quan hóa bằng Barplot/Countplot để kiểm tra tần suất và độ cân bằng của các lớp (class)
-- **Nhóm Time Series:** Trích xuất ra thành phần Tháng và Ngày trong tuần để trực quan hóa đồ thị tần suất đánh giá lưu lượng khách hàng tập trung vào thời điểm nào trong năm/tuần
-
+- **Nhóm Numerical (Age, Quantity, Price per Unit, Total Amount):** Trực quan hóa bằng Distribution Plot để đánh giá hình dáng phân phối và độ lệch
+- **Nhóm Categorical (Gender, Product Category):** Trực quan hóa bằng Barplot/Countplot để kiểm tra tần suất và độ cân bằng của các lớp
+- **Nhóm Time Series:** Trích xuất ra thành phần Tháng và Ngày trong tuần để trực quan hóa đồ thị tần suất đánh giá nhịp điệu mua sắm
 #### **Bivariate/Multivariate Analysis**
-- **Numerical vs Numerical:** Sử dụng Ma trận tương quan giữa các biến số gồm age, quantity, price để kiểm tra hiện tượng đa cộng tuyến (Ví dụ: age và quantity có tương quan với nhau không ?, ...). Vẽ Scatter Plots để xem xét xu hướng tuyến tính giữa age vs price, age vs quantity
-- **Categorical vs Numerical:** Sử dụng Boxplot và Barplot để tìm ra ngành hàng mang lại trung vị giá trị cao nhất, Mall có phổ doanh thu rộng nhất, và so sánh doanh thu theo giới tính/phương thức thanh toán
-- **Categorical vs Categorical:** Sử dụng Bảng chéo (pd.crosstab) và Stacked Bar Charts để tìm Insight nhân khẩu học (phân bổ giới tính tại các Mall) và Insight hành vi (sở thích ngành hàng/thanh toán theo giới tính)
-- **Time Series vs Numerical:** Sử dụng Barplot/Linechart để xem xét giá trị hóa đơn trung bình thay đổi thế nào theo Tháng (Tháng 12 có tăng vọt không?) và theo Ngày trong tuần (Cuối tuần có chi tiêu cao hơn không?)
+- **Numerical vs Numerical:** Sử dụng Ma trận tương quan giữa các biến số gồm Age, Quantity, Price per Unit, Total Amount để kiểm tra hiện tượng đa cộng tuyến. Vẽ Scatter Plots để xem xét xu hướng tuyến tính giữa các cặp Quantity vs Total Amount, Price per Unit vs Total Amount, Age vs Total Amount
+- **Categorical vs Numerical:** Product Category vs Total Amount, Gender vs Total Amount
+- **Categorical vs Categorical:** Gender vs Product Category
+- **Time Series vs Numerical:** Month/DayOfWeek vs Total Amount
+- **Time Series vs Categorical:** Month vs Product Category
 
 #### **Outlier Detection**
-- Tập trung phân tích phân phối đuôi dài của biến price (Tổng hóa đơn - đại diện cho Doanh thu)
-- Sử dụng phương pháp IQR để đếm số lượng hóa đơn có giá trị "bất thường" (mua quá nhiều hoặc giá quá cao)
+- Tập trung phân tích phân phối của Total Amount
+- Sử dụng phương pháp IQR để đếm số lượng hóa đơn có giá trị "bất thường" 
 
 ### **4. Data Preprocessing**
 **Mục tiêu :** Xử lý triệt để các vấn đề của dữ liệu thô (nhiễu, lỗi định dạng, thiếu sót, trùng lặp) nhằm tạo ra một bộ dữ liệu sạch, đồng nhất và chuẩn xác. Đảm bảo mô hình không bị "nhiễu" bởi các dữ liệu phi logic hoặc sai sót trong quá trình thu thập.
-
 Các bước thực hiện:
-- **Data Cleaning:**
-    - Xử lý Duplicate: Quét và xóa bỏ các dòng giao dịch trùng lặp hoàn toàn.
-    - Xử lý Inconsistent Type: Ép kiểu cột invoice_date về định dạng Datetime, cột price về Float.
-    - Xử lý Invalid/Noisy Data: Chuẩn hóa lỗi gõ chữ (Ví dụ: Đưa "Male", "male", "M" về chuẩn chung là "Male").
-    - Xử lý Domain Constraints: Xóa các dòng phi logic (VD: age < 10, price < 0).
-    - Xử lý Missing Values: Xóa (Drop) các dòng chứa giá trị NaN nếu tỷ lệ rất thấp
-    - Xử lý Outlier: Dùng phương pháp IQR để phát hiện và Cắt tỉa/Xóa bỏ các hóa đơn có giá trị dị biệt, giúp làm sạch dữ liệu trước khi đưa vào mô hình
+    - Data Split: Chia tập Train/Test tỷ lệ 80/20
+    - Xử lý Data Leakage: Xóa bỏ các cột ID không mang thông tin quy luật (Transaction ID, Customer ID) trên tập Train và Test để giảm kích thước lưu trữ và tránh Data Leakage
+    - Xử lý Duplicate: Quét và xóa bỏ các bản ghi trùng lặp hoàn toàn trên tập Train
+    - Xử lý Inconsistent Type: Ép kiểu toàn bộ các cột về định dạng chuẩn (vd: Date $\rightarrow$ datetime64, Gender $\rightarrow$ category, các biến số $\rightarrow$ float) trên cả Train và Test
+    - Xử lý Invalid/Noisy Data: Xóa các dòng chứa giá trị phi logic (VD: age < 10, price < 0) trên tập Train
+    - Xử lý Domain Constraints: Kiểm tra các ràng buộc thực tế (vd: Nếu Product Category chỉ được phép là [Beauty, Clothing, Electronics], thì bất kỳ giá trị khác phải bị loại bỏ hoặc đưa về nhóm Unknown/Other) trên tập Train
 
 ### **5. Feature Engineering**
 **Mục tiêu :**
@@ -73,14 +68,15 @@ Các bước thực hiện:
 - Giúp mô hình hoạt động tốt trên tập Test và dữ liệu thực tế
 
 Các bước thực hiện:
-- **Data split:** Phân chia tập dữ liệu thành Train/Test theo tỷ lệ 80/20 trước khi tác động biến đổi
-- **Feature Extraction:** Trích xuất biến thời gian thành biến cờ Is_Promotion_Campaign (1 nếu thuộc Tháng 1 hoặc Tháng 2, ngược lại 0)
+- **Feature Creation:** Thực hiện trên cả Train lẫn Test
+    - **Date Features:** Trích xuất các thuộc tính thời gian: `Month`, `DayOfWeek` (từ `Date`)
+    - **Domain-specific Features:** Tạo biến `Is_Weekend` (Binary: 1 nếu Sat/Sun, 0 ngược lại) để tận dụng kết quả EDA về sự chênh lệch chi tiêu cuối tuần
+    - **Interaction Features:** Nhân tố liên quan giữa các biến: Tạo biến `Gender_x_Category` để mô hình học được hành vi đặc thù (ví dụ: Nữ + Beauty)
+- **Feature Selection:** Loại bỏ các cột không mang thông tin dự báo (Date, Gender, Quantity, Product Category gốc) nhưng giữ lại cột Price per Unit
+- **Encoding Categorical Variables:** Đưa các biến dạng Category qua bộ One-Hot Encoding (OHE) để chuyển đổi thành ma trận nhị phân (Chỉ thực hiện .fit_transform() trên tập Train và áp dụng .transform() trên tập Test)
 - **Feature Transformation:**
-    - **Log-Transform:** Biến mục tiêu price (Doanh thu) bị lệch phải nghiêm trọng cần biến đối logarit để kéo phân phối về hình chuông, giúp thỏa mãn giả định của Linear Regression
-    - **Rời rạc hóa (Binning):** Chuyển đổi cột age (tuổi từ 18-90) thành các nhóm (Bins) như: Gen Z (<25), Millennials (25-40), Gen X (41-60), Boomers (>60). Việc này giúp mô hình dễ dàng học được sự khác biệt về chi tiêu giữa các thế hệ thay vì coi tuổi tác là một đường thẳng tuyến tính
-- **Feature Selection:** Loại bỏ các cột không mang thông tin dự báo (invoice_no, customer_id, invoice_date) và các biến phân loại gây nhiễu (shopping_mall, gender, payment_method)
-- **Encoding Categorical Variables:** Đưa các biến phân loại (category, age_group) qua bộ One-Hot Encoding (OHE) để chuyển đổi thành ma trận nhị phân
-- **Scaling (Chuẩn hóa thang đo):** Chuẩn hóa Standardization (Z-score) cho các biến số liên tục để kéo Mean = 0 và Std = 1. Việc này giúp thuật toán Gradient Descent trong Linear Regression không bị chệch hướng bởi các biến có giá trị quá lớn
+    - **Log-Transform:** Biến mục tiêu `Total Amount` bị lệch phải cần biến đối logarit để kéo phân phối về hình chuông
+    - **Scaling (Chuẩn hóa thang đo):** Chuẩn hóa Standardization (Z-score) cho các biến số liên tục để kéo Mean = 0 và Std = 1. Việc này giúp thuật toán Gradient Descent trong Linear Regression không bị chệch hướng bởi các biến có giá trị quá lớn
 
 ### **6. Model Training**
 Triển khai huấn luyện các thuật toán Regression, kết hợp với các kỹ thuật kiểm định và tinh chỉnh để đạt được hiệu năng dự đoán tốt nhất:
