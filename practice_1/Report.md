@@ -636,6 +636,7 @@ enron_dataset['Cleaned_Message'] = enron_dataset['Full_Text'].apply(clean_text)
 ```
 **Received Output:**
 ```text
+forward susan trevino numtoken numtoken numtoken numtoken numtoken bob withers numtoken numtoken numtoken numtoken numtoken numtoken susan trevino stretch brennan kevin mclarney taylor vance mail numtoken nd rev dec numtoken josey ranch nom revise december numtoken effective numtoken numtoken numtoken setup josey use numtoken numtoken btu mcf delivery hpl numtoken numtoken mmbtu kri net reduction numtoken numtoken mmbtu numtoken numtoken mmbtu hpl bob withers kcs numtoken san felipe suite numtoken houston tx numtoken voice mail page numtoken numtoken numtoken
 ```
 
 To transition the pipeline toward mathematical modeling, the structured components were aligned and encoded. The target class attribute, originally stored as categorical strings (spam and ham), was converted into binary coordinates. Utilizing Label Encoding, the classes were mapped such that Spam $\rightarrow$ 1 and Ham $\rightarrow$ 0. This numerical binarization satisfies the mathematical prerequisites of the downstream supervised classification loss functions (such as log-loss in Logistic Regression and hinge-loss in SVM).
@@ -1612,7 +1613,7 @@ Top 10 Indicators for Ham (Negative Margin Weights):
 - agreement (-1.45)
 - questions (-1.35)
 
-The extracted feature importances provide profound empirical validation of the system's learning integrity, as the mathematical weights align flawlessly with the human-observed heuristics established during the Exploratory Data Analysis (EDA) phase.
+The extracted feature importances provide profound empirical validation of the system's learning integrity, as the mathematical weights align flawlessly with the human-observed heuristics established during the Exploratory Data Analysis phase.
 
 For the Spam Email classification, the algorithm heavily penalized emails saturated with external hyperlinks (URLTOKEN) and financial digits (NUMTOKEN), correctly identifying them as primary vectors for phishing and monetary fraud. Furthermore, the prominent positive weights assigned to terms like investment, guarantee, and click demonstrate that the model successfully decoded the psychological urgency and "Pump-and-Dump" financial scripts characteristic of malicious campaigns. Crucially, the custom-engineered variable, Log_Punct_Ratio, emerged as the 6th most powerful indicator for Spam. This definitively proves the validity of the Feature Engineering hypothesis: algorithms can mathematically detect the structural abuse of special characters independently of the semantic vocabulary, providing a robust behavioral safety net against spammers who attempt to evade text-based keyword filters.
 
