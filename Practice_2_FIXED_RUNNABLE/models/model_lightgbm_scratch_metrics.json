@@ -1,0 +1,18 @@
+{
+  "model_name": "model_lightgbm_scratch",
+  "best_params": {
+    "n_estimators": 20,
+    "learning_rate": 0.1,
+    "max_depth": 3
+  },
+  "metrics": {
+    "R2": 0.6228326439012584,
+    "MAE": 200.04239747117586,
+    "RMSE": 332.27683293047653,
+    "MAPE": 54.25383787836927
+  },
+  "extra": {
+    "target": "log1p(Total Amount)"
+  },
+  "model_file": "model_lightgbm_scratch.pkl"
+}

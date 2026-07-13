@@ -1,0 +1,18 @@
+{
+  "model_name": "decision_tree_scratch",
+  "best_params": {
+    "max_depth": 3,
+    "min_samples_split": 100,
+    "min_samples_leaf": 100
+  },
+  "metrics": {
+    "R2": 0.7171676538940346,
+    "MAE": 181.8738417865539,
+    "RMSE": 287.73821934932107,
+    "MAPE": 52.7534010722002
+  },
+  "extra": {
+    "target": "log1p(Total Amount)"
+  },
+  "model_file": "decision_tree_scratch.pkl"
+}

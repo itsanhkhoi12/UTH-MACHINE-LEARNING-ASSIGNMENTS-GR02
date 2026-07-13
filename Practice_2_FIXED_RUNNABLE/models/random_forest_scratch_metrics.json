@@ -1,0 +1,19 @@
+{
+  "model_name": "random_forest_scratch",
+  "best_params": {
+    "n_estimators": 20,
+    "max_depth": 6,
+    "min_samples_split": 50,
+    "min_samples_leaf": 25
+  },
+  "metrics": {
+    "R2": 0.5698884357064666,
+    "MAE": 206.48875,
+    "RMSE": 354.83264893467737,
+    "MAPE": 70.4122361111111
+  },
+  "extra": {
+    "target": "Total Amount gốc"
+  },
+  "model_file": "random_forest_scratch.pkl"
+}

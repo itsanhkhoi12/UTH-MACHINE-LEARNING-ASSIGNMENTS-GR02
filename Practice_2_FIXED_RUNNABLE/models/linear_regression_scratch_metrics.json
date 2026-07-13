@@ -1,0 +1,17 @@
+{
+  "model_name": "linear_regression_scratch",
+  "best_params": {
+    "learning_rate": 0.1,
+    "epochs": 1000
+  },
+  "metrics": {
+    "R2": 0.6076049861671133,
+    "MAE": 202.5143396375049,
+    "RMSE": 338.9180927279513,
+    "MAPE": 56.016576700945905
+  },
+  "extra": {
+    "target": "log1p(Total Amount)"
+  },
+  "model_file": "linear_regression_scratch.pkl"
+}

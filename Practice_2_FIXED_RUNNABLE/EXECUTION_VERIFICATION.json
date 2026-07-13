@@ -1,0 +1,37 @@
+[
+  {
+    "notebook": "01-02-eda-data-preprocessing.ipynb",
+    "errors": [],
+    "unexecuted_cells": []
+  },
+  {
+    "notebook": "03-feature-engineering.ipynb",
+    "errors": [],
+    "unexecuted_cells": []
+  },
+  {
+    "notebook": "04-train-linear-regression.ipynb",
+    "errors": [],
+    "unexecuted_cells": []
+  },
+  {
+    "notebook": "05-train-decision-tree-regressor.ipynb",
+    "errors": [],
+    "unexecuted_cells": []
+  },
+  {
+    "notebook": "06-train-random-forest-regressor.ipynb",
+    "errors": [],
+    "unexecuted_cells": []
+  },
+  {
+    "notebook": "07-train-gradient-boosting.ipynb",
+    "errors": [],
+    "unexecuted_cells": []
+  },
+  {
+    "notebook": "08-model-comparison.ipynb",
+    "errors": [],
+    "unexecuted_cells": []
+  }
+]
