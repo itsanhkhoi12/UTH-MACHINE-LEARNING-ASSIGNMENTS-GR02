@@ -241,3 +241,22 @@ INDIVIDUAL_WORK.md
 # Tài liệu cá nhân của vqd (không push lên repo nhóm)
 practice_3/P3_GUIDELINES.md
 practice_3/P3_PROGRESS.md
+
+# AI Agent local configurations and rules
+.agents/
+
+# Globally ignore compiled serialization files (models & datasets)
+*.pkl
+*.npy
+
+# Generated model folders
+models/
+practice_2/models/
+practice_3/models/
+
+# Generated processed datasets
+practice_3/data/processed/
+practice_3/data/processed_features/
+
+# Temporary generated plots at root of directories
+practice_3/vqd_3/*.png
