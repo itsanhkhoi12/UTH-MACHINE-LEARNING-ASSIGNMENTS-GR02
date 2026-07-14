@@ -1,21 +1,21 @@
-# 1. Problem Definition (Define Problem)
+# Problem Definition (Define Problem)
 
 ---
 
-## 1.1. Business Context and Problem Statement
+## Business Context and Problem Statement
 
 The customer segmentation problem aims to assist the business in understanding key potential customer groups in a new market. This facilitates consumer behavior analysis, optimizes marketing campaigns, and enables product/service personalization (e.g., selling automobiles).
 
 ---
 
-## 1.2. Mathematical Problem Formulation
+## Mathematical Problem Formulation
 
-### 1.2.1. Input Data ($X$)
+### Input Data ($X$)
 Let the input customer dataset be defined as $X = \{x_1, x_2, \dots, x_N\}$, where:
 - $N$ is the total number of customer records ($N = 8068$ samples in `Train.csv`).
 - Each customer $x_i$ is represented by a $D$-dimensional feature vector: $x_i = [x_{i1}, x_{i2}, \dots, x_{iD}]^T \in \mathbb{R}^D$, representing attributes such as `Age`, `Work_Experience`, `Family_Size`, and encoded categorical attributes (`Gender`, `Ever_Married`, `Graduated`, `Profession`, `Spending_Score`, `Var_1`).
 
-### 1.2.2. Output Labels ($C$)
+### Output Labels ($C$)
 The objective is to find a cluster assignment partition $C = \{c_1, c_2, \dots, c_N\}$, where:
 - $c_i \in \{1, 2, \dots, K\}$ denotes the Cluster ID assigned to customer $x_i$.
 - $K$ is the number of target clusters (customer segments) to be determined through optimization metrics.
@@ -23,11 +23,11 @@ The objective is to find a cluster assignment partition $C = \{c_1, c_2, \dots, 
 
 ---
 
-## 1.3. Mathematical Foundations of the 4 Clustering Algorithms
+## Mathematical Foundations of the 4 Clustering Algorithms
 
 We will implement the following four classic clustering algorithms from scratch:
 
-### 1.3.1. K-Means Clustering
+### K-Means Clustering
 - **Core Concept**: Partitions data into $K$ clusters such that the distance between points in the same cluster and their cluster centroid is minimized.
 - **Centroid**: 
   $$\mu_k = \frac{1}{|S_k|} \sum_{x_i \in S_k} x_i$$ 
@@ -36,7 +36,7 @@ We will implement the following four classic clustering algorithms from scratch:
   $$J_{\text{K-Means}} = \sum_{k=1}^K \sum_{x_i \in S_k} \|x_i - \mu_k\|^2$$
 - **Characteristics**: Sensitive to outliers due to the squared Euclidean distance (L2 norm) and tends to form spherical clusters of similar sizes.
 
-### 1.3.2. K-Medoids Clustering
+### K-Medoids Clustering
 - **Core Concept**: Similar to K-Means, but instead of using the mathematical mean as the cluster representative, K-Medoids selects an actual data point from the cluster (**Medoid**).
 - **Medoid**: A point $m_k \in S_k$ satisfying:
   $$m_k = \arg\min_{y \in S_k} \sum_{x_i \in S_k} d(x_i, y)$$
@@ -44,7 +44,7 @@ We will implement the following four classic clustering algorithms from scratch:
   $$J_{\text{K-Medoids}} = \sum_{k=1}^K \sum_{x_i \in S_k} d(x_i, m_k)$$
 - **Characteristics**: Highly robust to outliers and noise by utilizing absolute distances or custom distance matrices (e.g., Manhattan distance).
 
-### 1.3.3. DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
+### DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
 - **Core Concept**: Clusters data based on point density. High-density regions form clusters, while sparse regions are classified as noise.
 - **Core Parameters**:
   - $\epsilon$ (Epsilon): The neighborhood radius of a point.
@@ -55,7 +55,7 @@ We will implement the following four classic clustering algorithms from scratch:
   - **Noise Point**: Neither a Core Point nor a Border Point.
 - **Characteristics**: Capable of discovering clusters of arbitrary shapes, automatically detects noise, and does not require pre-specifying the number of clusters $K$.
 
-### 1.3.4. Hierarchical Clustering (Agglomerative)
+### Hierarchical Clustering (Agglomerative)
 - **Core Concept**: A bottom-up approach where each data point starts as its own cluster, and the closest pairs of clusters are successively merged until only a single cluster remains (forming a Dendrogram tree).
 - **Linkage Distance Metrics**:
   - **Single Linkage**:
@@ -72,11 +72,11 @@ We will implement the following four classic clustering algorithms from scratch:
 
 ---
 
-# 2. Data Validation (Data Collection & Validation)
+# Data Validation (Data Collection & Validation)
 
 ---
 
-## 2.1. Loading Raw Dataset
+## Loading Raw Dataset
 
 The raw dataset is stored in `../data/raw/`.
 
@@ -97,7 +97,7 @@ Kích thước tập Train: (8068, 11)
 
 ---
 
-## 2.2. Previewing Initial Data Records
+## Previewing Initial Data Records
 
 To check the actual structure of the dataset, we print the first 20 records.
 
@@ -136,7 +136,7 @@ train_df.head(20)
 
 ---
 
-## 2.3. Data Type Inspections (Data Types)
+## Data Type Inspections (Data Types)
 
 We check the data types of each feature to formulate an appropriate encoding and preprocessing strategy.
 
@@ -172,7 +172,7 @@ memory usage: 693.5+ KB
 
 ---
 
-## 2.4. Checking Missing Values (Missing Values)
+## Checking Missing Values (Missing Values)
 
 We summarize the missing count and percentage for each feature.
 
@@ -205,7 +205,7 @@ Var_1                       76        0.941993
 
 ---
 
-## 2.5. Checking Duplicate Records (Duplicate Rows)
+## Checking Duplicate Records (Duplicate Rows)
 
 We verify if there are duplicate rows in the dataset.
 
@@ -227,7 +227,7 @@ Số dòng bị trùng lặp ID: 0
 
 ---
 
-## 2.6. Preliminary Exploration of Categorical Variables
+## Preliminary Exploration of Categorical Variables
 
 To ensure the quality of categorical attributes, we check the unique labels of each categorical feature.
 
@@ -255,7 +255,7 @@ Cột Segmentation: ['D' 'A' 'B' 'C']
 
 ---
 
-## 2.7. Descriptive Statistics
+## Descriptive Statistics
 
 We examine the statistics of the numerical attributes.
 
@@ -279,11 +279,11 @@ Family_Size     7733.0       2.850123     1.531413       1.0       2.00       3.
 
 ---
 
-## 2.8. Logical Consistency Checks (Consistency Checks)
+## Logical Consistency Checks (Consistency Checks)
 
 To guarantee the reliability of the customer self-reported attributes, we inspect logic inconsistencies between features.
 
-### 2.8.1. Contradiction between Age and Work Experience (Age vs. Work Experience)
+### Contradiction between Age and Work Experience (Age vs. Work Experience)
 Usually, a professional career begins around age 15 or later. If the difference `Age - Work_Experience` is less than 15, it represents a logical contradiction.
 
 ```python
@@ -311,7 +311,7 @@ Ví dụ 5 bản ghi bất thường đầu tiên:
 #### Remarks:
 - We found 137 cases where the age and years of experience are logically inconsistent (e.g., ID 108 is 19 years old but has 6 years of experience, implying they started professional employment at 13; ID 201 is 19 years old with 9 years of experience). These records represent noise and will be removed during cleaning.
 
-### 2.8.2. Contradiction between Profession and Education (Profession vs. Graduation)
+### Contradiction between Profession and Education (Profession vs. Graduation)
 In practice, specialized professions such as Doctor or Lawyer require a university degree (`Graduated == 'Yes'`). We check if there are individuals declaring these occupations without a degree.
 
 ```python
@@ -339,11 +339,11 @@ Ví dụ 5 bản ghi đầu tiên:
 #### Remarks:
 - We found 518 contradictory records where customers declared their profession as Lawyer or Doctor but their graduation status was registered as 'No'. This contradiction accounts for a significant portion (~6.42% of the raw data) and represents self-reporting inaccuracies.
 
-# 3. Data Cleaning
+# Data Cleaning
 
 ---
 
-## 3.1. Removing Duplicate Records (Duplicates)
+## Removing Duplicate Records (Duplicates)
 
 Before analysis and modeling, completely identical duplicate records and duplicate customer IDs must be removed to avoid biases in clustering density.
 
@@ -360,7 +360,7 @@ train_df = train_df.drop_duplicates(subset=['ID'], keep='first')
 
 ---
 
-## 3.2. Removing Logically Inconsistent Values (Sanity Outliers Cleaning)
+## Removing Logically Inconsistent Values (Sanity Outliers Cleaning)
 
 To preserve the realism and integrity of the training data, we remove the logically inconsistent records discovered during the validation phase:
 1. Customers reporting employment before the age of 15 (`Age - Work_Experience < 15`).
@@ -393,11 +393,11 @@ Kích thước sau khi lọc logic:  7422
 
 ---
 
-## 3.3. Pre-treatment Missing Values Analysis
+## Pre-treatment Missing Values Analysis
 
 To select a mathematically sound strategy for handling missing data, we analyze the distribution of the missing numerical and categorical variables.
 
-### 3.3.1. Visualizing Distributions of Missing Numerical Variables (`Work_Experience` and `Family_Size`)
+### Visualizing Distributions of Missing Numerical Variables (`Work_Experience` and `Family_Size`)
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -432,7 +432,7 @@ plt.tight_layout()
 1. **Work_Experience**: The distribution is highly right-skewed (Skewness ~1.32). The majority of customers cluster around 0-1 year of experience. Imputing with the **Median (1.0)** is better than the Mean (2.57) because it accurately reflects the center of the distribution and prevents skewing.
 2. **Family_Size**: This is a discrete variable. Imputing with the Mean (2.85) would create decimal values, which are physically meaningless. Thus, the **Median (3.0)** is the optimal choice to maintain the integer nature of this feature.
 
-### 3.3.2. Visualizing Distributions of Missing Categorical Variables (`Ever_Married`, `Graduated`, `Profession`, `Var_1`)
+### Visualizing Distributions of Missing Categorical Variables (`Ever_Married`, `Graduated`, `Profession`, `Var_1`)
 
 ```python
 cat_cols_nan = ['Ever_Married', 'Graduated', 'Profession', 'Var_1']
@@ -457,7 +457,7 @@ plt.tight_layout()
 
 ---
 
-## 3.4. Handling Missing Data: Imputation vs. Row Removal
+## Handling Missing Data: Imputation vs. Row Removal
 
 Although Median and Mode values were established on a theoretical basis for imputation (as surveyed above), after considering the risk of introducing synthetic noise into clustering, we choose to **remove (drop)** all rows containing missing values to obtain a pure dataset.
 
@@ -481,11 +481,11 @@ Số lượng khuyết thiếu sau xử lý ở Train: 0
 
 ---
 
-## 3.5. Bias Check (Raw vs. Cleaned Data Distribution)
+## Bias Check (Raw vs. Cleaned Data Distribution)
 
 We compare the feature distributions before and after cleaning to ensure that reducing the dataset size from 7,422 to 6,132 rows did not alter the distribution characteristics.
 
-### 3.5.1. Numerical Distributions Comparison Before/After Cleaning
+### Numerical Distributions Comparison Before/After Cleaning
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(16, 6))
@@ -511,7 +511,7 @@ plt.tight_layout()
 #### Remarks:
 - The KDE plots show that the distributions before and after cleaning align almost perfectly. No shifts or geometric distortions are observed in either `Work_Experience` or `Family_Size`, confirming that row deletion did not induce any distribution bias.
 
-### 3.5.2. Categorical Proportion Comparison Before/After Cleaning
+### Categorical Proportion Comparison Before/After Cleaning
 
 ```python
 cat_cols_nan = ['Ever_Married', 'Graduated', 'Profession', 'Var_1']
@@ -555,7 +555,7 @@ plt.tight_layout()
 
 ---
 
-## 3.6. Visualizing Outliers (Outliers Visualization)
+## Visualizing Outliers (Outliers Visualization)
 
 We construct boxplots and calculate IQR ranges to detect physical outliers in the cleaned dataset.
 
@@ -613,15 +613,15 @@ Số lượng giá trị dị biệt phát hiện: 138 (2.25%)
 
 ---
 
-# 4. Exploratory Data Analysis (EDA)
+# Exploratory Data Analysis (EDA)
 
 ---
 
-## 4.1. Visualizing Numerical Features
+## Visualizing Numerical Features
 
 We explore the distributions and associations of the quantitative features: `Age`, `Work_Experience`, and `Family_Size`.
 
-### 4.1.1. Distributions and Boxplots of Numerical Features
+### Distributions and Boxplots of Numerical Features
 
 ```python
 fig, axes = plt.subplots(3, 2, figsize=(15, 18))
@@ -655,7 +655,7 @@ plt.tight_layout()
 - **Work_Experience**: Right-skewed, showing that the majority of customers have under 1 year of experience.
 - **Family_Size**: Clustered mostly around smaller families of 1 to 4 members.
 
-### 4.1.2. Correlation Matrix of Numerical Features (Numerical Correlation Heatmap)
+### Correlation Matrix of Numerical Features (Numerical Correlation Heatmap)
 
 We calculate Pearson correlation coefficients to investigate linear relationships between numerical features.
 
@@ -676,7 +676,7 @@ plt.title("Ma trận tương quan Pearson giữa các đặc trưng số học")
 
 ---
 
-## 4.2. Visualizing Categorical Features
+## Visualizing Categorical Features
 
 We examine the category distributions for `Gender`, `Ever_Married`, `Graduated`, `Profession`, `Spending_Score`, and `Var_1`.
 
@@ -705,7 +705,7 @@ plt.tight_layout()
 
 ---
 
-## 4.3. Comprehensive Categorical Association Tests (Chi-Square & Cramer's V Test Suite)
+## Comprehensive Categorical Association Tests (Chi-Square & Cramer's V Test Suite)
 
 To quantify non-linear dependencies among categorical variables, we run Chi-Square independence tests and calculate Cramer's V indices.
 
@@ -763,9 +763,9 @@ plt.tight_layout()
 
 ---
 
-## 4.4. Comprehensive Multivariate Association Analysis
+## Comprehensive Multivariate Association Analysis
 
-### 4.4.1. Spending Score vs. Core Categorical Features
+### Spending Score vs. Core Categorical Features
 
 We analyze the percentage distributions of customer spending scores across core categorical features.
 
@@ -789,7 +789,7 @@ plt.tight_layout()
 - Unmarried customers (`Ever_Married == 'No'`) have a near-100% rate of low spending (`Low`). Conversely, married customers (`Yes`) display average (`Average`) or high (`High`) spending.
 - The `Healthcare` profession consists almost entirely of low spending (`Low`) customers. Meanwhile, `Executive`, `Lawyer`, and `Artist` display prominent high and average spending profiles.
 
-### 4.4.2. In-depth Analysis of Top Associations (Cramer's V > 0.25)
+### In-depth Analysis of Top Associations (Cramer's V > 0.25)
 
 We dissect the interactions of `Profession` with marriage and graduation status.
 
@@ -823,7 +823,7 @@ plt.tight_layout()
 - **Artist**: Represents the overwhelming majority, mostly married and graduated, with spending distributed across all three tiers.
 - **Lawyer**: Mostly married, has the highest graduation rate, and is dominated by high (`High`) spending scores.
 
-### 4.4.3. Correlation Space of All Numerical Variables (Age, Work_Experience, Family_Size)
+### Correlation Space of All Numerical Variables (Age, Work_Experience, Family_Size)
 
 We construct a pairplot colored by the target reference `Spending_Score`.
 
@@ -841,7 +841,7 @@ plt.suptitle("Ma trận phân tán (Pairplot) các biến số học theo Mức 
 
 ---
 
-## 4.5. Key Insights
+## Key Insights
 
 Based on descriptive statistics and multivariate explorations, we extract four key insights:
 
@@ -850,11 +850,11 @@ Based on descriptive statistics and multivariate explorations, we extract four k
 3. **Professional Segments**: The `Healthcare` profession contains young, single, non-graduated, and low-spending individuals (representing budget-friendly opportunities). Conversely, `Artist`, `Executive`, and `Lawyer` constitute the mid-to-high-end tiers.
 4. **Independence of Var_1**: Although `Var_1` has a statistically significant relationship with other features (low p-values), its Cramer's V is very low ($<0.2$). This proves that `Var_1` acts as an independent feature, carrying complementary info without causing multicollinearity.
 
-# 5. Feature Engineering
+# Feature Engineering
 
 ---
 
-## 5.1. Building Preprocessing Pipeline and Combined Features
+## Building Preprocessing Pipeline and Combined Features
 
 We establish an integrated preprocessing pipeline that creates combined features, applies IQR clipping to limit numerical outliers, encodes nominal attributes, and normalizes numeric values.
 
@@ -918,7 +918,7 @@ X_scaled, customer_ids = preprocess_pipeline(df)
 
 ---
 
-## 5.2. PCA Dimensionality Reduction Survey on Training Feature Space
+## PCA Dimensionality Reduction Survey on Training Feature Space
 
 We execute a 2-component PCA model to evaluate the information retention rate (the PCA algorithm is coded from scratch based on covariance matrix eigendecomposition).
 
@@ -943,11 +943,11 @@ Tổng lượng thông tin giữ lại ở không gian 2D: 35.47%
 
 ---
 
-# 6. Clustering Algorithms
+# Clustering Algorithms
 
 ---
 
-## 6.1. Custom Evaluation Metric: Vectorized Silhouette Score
+## Custom Evaluation Metric: Vectorized Silhouette Score
 
 To accurately evaluate clustering quality and choose the optimal number of clusters, we code a vectorized Silhouette Score function.
 
@@ -1008,9 +1008,9 @@ X_train_2d = pca_2d.fit_transform(X_train)
 
 ---
 
-## 6.2. K-Means from Scratch
+## K-Means from Scratch
 
-### 6.2.1. KMeansScratch Implementation
+### KMeansScratch Implementation
 
 ```python
 class KMeansScratch:
@@ -1062,7 +1062,7 @@ class KMeansScratch:
 #### Remarks:
 - `KMeansScratch` implements the standard Lloyd's algorithm: randomly initializes centroids from the training set, computes squared L2 distances, assigns points to the nearest centroid, and updates centroid locations using the cluster mean until centroid shifts fall below the tolerance `tol`.
 
-### 6.2.2. Optimizing Number of Clusters K for K-Means
+### Optimizing Number of Clusters K for K-Means
 
 We run a survey sweeping $K$ across Inertia (Elbow) and Silhouette Score to locate the optimal cluster configuration.
 
@@ -1114,7 +1114,7 @@ K = 6 | Inertia = 11862.71 | Silhouette Score = 0.1703
 - The Inertia plot shows the sharpest slope decrease going from $K=2 \\to K=3$, and flattens out starting from $K=3 \\to K=4$ (representing a clear Elbow point).
 - Simultaneously, the Silhouette Score peaks at **K=3** ($0.1682$) (ignoring the fragmented $K=6$). Thus, **K = 3** represents the optimal number of clusters for K-Means.
 
-### 6.2.3. Training K-Means with Optimal K (K=3) & 2D Visualization
+### Training K-Means with Optimal K (K=3) & 2D Visualization
 
 ```python
 best_kmeans = KMeansScratch(n_clusters=3, random_state=42).fit(X_train)
@@ -1136,7 +1136,7 @@ plt.legend()
 #### Remarks:
 - The three clusters partition relatively well on the 2D PCA plane. Although some overlap occurs at the boundaries due to the sparsity of the categorical data, three distinct dense regions are identified.
 
-### 6.2.4. Analysis of Centroid Distances and Cluster Dispersion
+### Analysis of Centroid Distances and Cluster Dispersion
 
 We compute centroid distances and cluster dispersion to measure geometrical properties.
 
@@ -1200,9 +1200,9 @@ Chi tiết bán kính phân tán của từng cụm (K=3):
 
 ---
 
-## 6.3. K-Medoids from Scratch
+## K-Medoids from Scratch
 
-### 6.3.1. KMedoidsScratch Implementation
+### KMedoidsScratch Implementation
 
 ```python
 class KMedoidsScratch:
@@ -1286,7 +1286,7 @@ class KMedoidsScratch:
 #### Remarks:
 - `KMedoidsScratch` implements the PAM (Partitioning Around Medoids) algorithm: selects actual data points (medoids) as cluster representatives and iteratively swaps medoids with non-medoids to minimize total distance costs. Using real points as centroids makes K-Medoids significantly more robust to outliers than K-Means.
 
-### 6.3.2. Optimizing Number of Clusters K for K-Medoids
+### Optimizing Number of Clusters K for K-Medoids
 
 ```python
 medoids_costs = []
@@ -1335,7 +1335,7 @@ K = 6 | Cost = 18398.24 | Silhouette Score = 0.1399
 - The Cost plot exhibits an Elbow inflection at **K = 4** (the rate of cost decrease slows down markedly). Additionally, the Silhouette Score at $K=4$ ($0.1235$) is higher than at $K=3$ ($0.1103$).
 - Thus, we choose **K = 4** as the optimal number of clusters to support more detailed customer profiling.
 
-### 6.3.3. Training K-Medoids with Surveyed K (K=4) & 2D Visualization
+### Training K-Medoids with Surveyed K (K=4) & 2D Visualization
 
 ```python
 best_kmedoids = KMedoidsScratch(n_clusters=4, max_iter=15, random_state=42).fit(X_train)
@@ -1356,7 +1356,7 @@ plt.legend()
 #### Remarks:
 - The four medoids (actual representative customer profiles) are successfully identified and highlighted with black 'X' marks. The cluster boundaries appear clean in the 2D principal component space.
 
-### 6.3.4. Analysis of Centroid Distances and Cluster Dispersion (K-Medoids K=4)
+### Analysis of Centroid Distances and Cluster Dispersion (K-Medoids K=4)
 
 We calculate geometric distances to build the theoretical critique for density-based models like DBSCAN:
 
@@ -1422,9 +1422,9 @@ Chi tiết bán kính phân tán của từng cụm (K=4):
 
 ---
 
-## 6.4. DBSCAN from Scratch
+## DBSCAN from Scratch
 
-### 6.4.1. DBSCANScratch Implementation
+### DBSCANScratch Implementation
 
 ```python
 class DBSCANScratch:
@@ -1481,7 +1481,7 @@ class DBSCANScratch:
 #### Remarks:
 - `DBSCANScratch` executes density-based region growing: classifies points as Core, Border, or Noise based on two parameters (`eps` and `min_samples`), propagating cluster memberships along density-connected paths.
 
-### 6.4.2. Establishing Epsilon Search Range via Multi-Reference K-Distance Plot
+### Establishing Epsilon Search Range via Multi-Reference K-Distance Plot
 
 ```python
 # Randomly sample 2000 rows to calculate K-Distance curve
@@ -1520,7 +1520,7 @@ plt.grid(True)
 #### Remarks:
 - The K-distance curves across reference $k$ values flex and converge in the interval $\epsilon \in [1.40, 1.50]$, providing a robust mathematical range for optimization searches.
 
-### 6.4.3. Density Criticism: Using KMeans & KMedoids to Guide DBSCAN Epsilon
+### Density Criticism: Using KMeans & KMedoids to Guide DBSCAN Epsilon
 
 We load centroid distances and cluster sizes from the prior runs to perform geometric analysis:
 
@@ -1582,7 +1582,7 @@ Bán kính cụm trung bình (Median L2) của K-Medoids K=4:
   - If we increase $\epsilon$ ($\epsilon > 1.60$) to capture sparser clusters, the compact clusters (whose centers are only $2.00$ units apart—e.g., Medoids 2 and 3 have a distance of $2.009$) merge into a single massive cluster via the density bridges connecting them.
 - Consequently, DBSCAN is theoretically **unsuitable** for partitioning this dataset into balanced customer segments.
 
-### 6.4.4. Training Optimal DBSCAN & 2D Multi-Color Visualization
+### Training Optimal DBSCAN & 2D Multi-Color Visualization
 
 ```python
 best_dbscan = DBSCANScratch(eps=1.42, min_samples=70)
@@ -1624,9 +1624,9 @@ Phân bổ cụm DBSCAN tối ưu trên tập Train đầy đủ (6132 mẫu):
 
 ---
 
-## 6.5. Hierarchical Clustering (Agglomerative) from Scratch
+## Hierarchical Clustering (Agglomerative) from Scratch
 
-### 6.5.1. AgglomerativeClusteringScratch Implementation via Lance-Williams Update Formula
+### AgglomerativeClusteringScratch Implementation via Lance-Williams Update Formula
 
 ```python
 class AgglomerativeClusteringScratch:
@@ -1738,7 +1738,7 @@ class AgglomerativeClusteringScratch:
 #### Remarks:
 - `AgglomerativeClusteringScratch` leverages the recursive Lance-Williams update formulas to adjust cluster distances after merges in real-time, bypassing the need to compute the distance matrix from scratch and improving computational efficiency.
 
-### 6.5.2. Cross-Verification & Dendrogram Analysis for All 5 Linkages
+### Cross-Verification & Dendrogram Analysis for All 5 Linkages
 
 We run all 5 linkages on the representative subset and evaluate their Silhouette Scores.
 
@@ -1782,7 +1782,7 @@ Linkage: ward     | Silhouette Score: 0.1591
 - The **Ward** linkage yields the highest Silhouette Score ($0.1591$) and the most balanced Dendrogram tree. Other linkages like `single` or `centroid` suffer from the chaining effect, gathering most points into a single cluster and creating isolated single-point clusters with no practical meaning.
 - Therefore, the Ward linkage represents the optimal configuration.
 
-### 6.5.3. Ward Dendrogram Detail & Determining K=3 using Dynamic Cut-off
+### Ward Dendrogram Detail & Determining K=3 using Dynamic Cut-off
 
 To split the Ward Dendrogram tree automatically and objectively, we define the **Dynamic Cut-off**:
 
@@ -1839,15 +1839,15 @@ Cao độ bước gộp tạo ra 2 cụm (3→2): 31.5402
 - The dynamic cut-off line sits at $y = 25.0$, dividing the dendrogram tree into exactly **K = 3** clusters.
 - The 2D PCA visualization shows three well-separated clusters with balanced geometric scales, which are expected to yield clear and economically actionable customer profiles.
 
-# 7. Customer Profiling
+# Customer Profiling
 
 ---
 
-## 7.1. Customer Profiling from K-Medoids Clusters (K = 4)
+## Customer Profiling from K-Medoids Clusters (K = 4)
 
 We analyze the customer characteristics based on the partitioning results of K-Medoids ($K=4$) on the clean training set.
 
-### 7.1.1. Statistics of Numerical Features by Cluster
+### Statistics of Numerical Features by Cluster
 
 We compute the mean and median of the quantitative attributes across the 4 customer clusters.
 
@@ -1880,7 +1880,7 @@ Cluster
 - **Cluster 1** represents the youngest customer cohort (mean ~29.1 years old) and possesses the largest family size (median of 4 members).
 - **Cluster 2** and **Cluster 3** represent middle-aged cohorts (mean ~47.3 years old and ~42.3 years old) with average household sizes of 2 to 3 members.
 
-### 7.1.2. Distribution Proportions of Demographic Features by Cluster
+### Distribution Proportions of Demographic Features by Cluster
 
 We compare the categorical percentages chập across clusters.
 
@@ -1922,7 +1922,7 @@ plt.tight_layout()
 - **Marriage**: Nearly all customers in Cluster 0 ($97.1\%$) and Cluster 2 ($95.2\%$) are married. In contrast, $80.3\%$ of customers in Cluster 1 are single.
 - **Education**: Cluster 1 has a very low graduation rate ($16.3\%$), whereas all other clusters exceed $75\%$.
 
-### 7.1.3. Distribution Proportions of Dominant Features (Profession & Spending Score) by Cluster
+### Distribution Proportions of Dominant Features (Profession & Spending Score) by Cluster
 
 ```python
 # 4.1. Occupation distribution by cluster
@@ -1961,7 +1961,7 @@ for container in ax2.containers:
 - **Profession**: Cluster 0 is characterized by managers (`Executive`) and lawyers (`Lawyer`). Cluster 1 is dominated by healthcare professionals (`Healthcare`). Cluster 2 and Cluster 3 are heavily represented by artists (`Artist`).
 - **Spending**: Cluster 0 exhibits the highest rate of high spending (`High` at $75.8\%$). Cluster 2 is characterized by average spending (`Average` at $70.0\%$). Clusters 1 and 3 are dominated by low spenders (`Low` at $91.6\%$ and $77.8\%$ respectively).
 
-### 7.1.4. Concise Automobile Customer Personas (K-Medoids)
+### Concise Automobile Customer Personas (K-Medoids)
 
 Based on the quantitative and qualitative distributions, we define the following four customer personas:
 
@@ -1991,11 +1991,11 @@ Based on the quantitative and qualitative distributions, we define the following
 
 ---
 
-## 7.2. Customer Profiling from Hierarchical Clusters (K = 3)
+## Customer Profiling from Hierarchical Clusters (K = 3)
 
 We profile the customer segments using the optimal Hierarchical Clustering model (Ward Linkage, $K=3$) on the representative 1,500-sample subset.
 
-### 7.2.1. Statistics of Numerical Features by Cluster
+### Statistics of Numerical Features by Cluster
 
 ```python
 numerical_stats = df_hier.groupby('Cluster')[['Age', 'Work_Experience', 'Family_Size']].agg(['mean', 'median'])
@@ -2024,7 +2024,7 @@ Cluster
 - **Cluster 0** and **Cluster 1** share similar average ages (~46.0 and ~47.0 years respectively) and have small household sizes (~2.6 - 2.7 members).
 - **Cluster 2** represents a younger cohort (mean ~36.7 years) but has the largest household size (~3.4 members).
 
-### 7.2.2. Distribution Proportions of Demographic Features by Cluster
+### Distribution Proportions of Demographic Features by Cluster
 
 ```python
 features = ['Gender', 'Ever_Married', 'Graduated', 'Spending_Score']
@@ -2062,7 +2062,7 @@ plt.tight_layout()
 - **Gender**: The most prominent feature of this Hierarchical partitioning is the clean split by gender: Cluster 0 is $99.3\%$ female, while Cluster 1 is $99.8\%$ male. Cluster 2 has a mixed gender distribution.
 - **Marriage & Education**: Both Cluster 0 and Cluster 1 represent highly educated professionals (nearly $100\%$ graduated) who are mostly married. Conversely, $97.6\%$ of Cluster 2 members have not graduated and are mostly single.
 
-### 7.2.3. Distribution Proportions of Dominant Features (Profession & Spending Score) by Cluster
+### Distribution Proportions of Dominant Features (Profession & Spending Score) by Cluster
 
 ```python
 # 4.1. Occupation distribution by cluster
@@ -2101,7 +2101,7 @@ for container in ax2.containers:
 - **Profession**: Both Cluster 0 and Cluster 1 are heavily represented by artists (`Artist`). In addition, Cluster 1 contains a high proportion of managers (`Executive`). Cluster 2 is dominated by healthcare workers (`Healthcare`).
 - **Spending**: Cluster 2 is primarily composed of low spenders (`Low` at $70.5\%$). Clusters 0 and 1 have balanced average and high spending profiles.
 
-### 7.2.4. Concise Automobile Customer Personas (Hierarchical)
+### Concise Automobile Customer Personas (Hierarchical)
 
 *   **Cluster 0: Educated Middle-Aged Females (Graduated, Stable Income)**
     *   **Numerical profile**: Average age ~46.0 | Average family size ~2.7 members.
@@ -2123,13 +2123,13 @@ for container in ax2.containers:
 
 ---
 
-# 8. Model Verification
+# Model Verification
 
 ---
 
 The purpose of this section is to perform a quantitative **Cross-Verification** on our custom from-scratch algorithms against standard library implementations in `scikit-learn` and `scipy` using identical hyperparameter configurations.
 
-## 8.1. Parallel Training of Library Models and Quantitative Metrics Matching
+## Parallel Training of Library Models and Quantitative Metrics Matching
 
 We calculate the **Adjusted Rand Index (ARI)** to compare labels (ARI = 1.0 indicates perfect label agreement, ignoring label index order). For K-Means, we also compare the **Inertia (WCSS)**.
 
@@ -2206,7 +2206,7 @@ print(f'[SciPy  Hierarchical K=3] Phân bổ: {dict(zip(*np.unique(scipy_hier_la
 
 ---
 
-## 8.2. Model Sanity Check Matrix Heatmap Visualization
+## Model Sanity Check Matrix Heatmap Visualization
 
 We compile the results into a sanity check comparison matrix and plot an ARI heatmap.
 
@@ -2263,7 +2263,7 @@ Hierarchical (Ward, K=3)                  1.000000             0.1591  ARI vs Sc
 
 ---
 
-## 8.3. General Verification Conclusions
+## General Verification Conclusions
 
 ### Quantitative Metric Evaluation
 
