@@ -8,7 +8,7 @@ class MultiLayerPerceptronRegression:
         
         Args:
             layer_sizes (list): Danh sách số lượng nơ-ron mỗi layer
-                                Ví dụ Lab 4: [13, 16, 16, 1] -> 13 Input, 
+                                Ví dụ [13, 16, 16, 1] -> 13 Input, 
                                 2 Hidden layers (16 nơ-ron mỗi lớp), 1 Output (giá nhà dự đoán)
             learning_rate (float): Tốc độ học (alpha)
             epochs (int): Số vòng lặp huấn luyện
@@ -22,6 +22,22 @@ class MultiLayerPerceptronRegression:
         self.b = []
         
         self._initialize_weights()
+    def get_params(self, deep=True):
+        return {
+            'layer_sizes': self.layer_sizes,
+            'learning_rate': self.learning_rate,
+            'epochs': self.epochs
+        }
+
+    def set_params(self, **parameters):
+        for parameter, value in parameters.items():
+            setattr(self, parameter, value)
+        
+        self.W = []
+        self.b = []
+        self._initialize_weights()
+        
+        return self
 
     def _initialize_weights(self):
         """Khởi tạo ngẫu nhiên Trọng số và Bias cho toàn bộ các lớp (Xavier/He Initialization)"""
@@ -102,6 +118,7 @@ class MultiLayerPerceptronRegression:
     def fit(self, X: np.ndarray, Y: np.ndarray):
         """Huấn luyện mô hình"""
         self.loss_history = []
+        self.mae_history = []
         
         if Y.ndim == 1:
             Y = Y.reshape(-1, 1)
@@ -120,11 +137,12 @@ class MultiLayerPerceptronRegression:
             
             # Tính MSE
             mse_loss = np.mean((A_final - Y) ** 2)
+            mae_loss = np.mean(np.abs(A_final - Y))
             self.loss_history.append(mse_loss)
+            self.mae_history.append(mae_loss)
             
-            # In ra loss mỗi 100 vòng
-            if (epoch % 100 == 0) or (epoch == self.epochs - 1):
-                mae_loss = np.mean(np.abs(A_final - Y))
+            # In ra loss mỗi 50 epochs
+            if (epoch + 1) % 50 == 0 or epoch == 0:
                 print(f"Epoch {epoch:4d} | MSE Loss: {mse_loss:.4f} | MAE: {mae_loss:.4f}")
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -153,7 +171,7 @@ class LinearRegressionScratch:
 
     def fit(self, X, y):
         X = np.array(X)
-        y = np.array(y)
+        y = np.array(y).flatten()
         n_samples, n_features = X.shape
 
         # Bước 1: Khởi tạo weights = 0, bias = 0
@@ -166,8 +184,8 @@ class LinearRegressionScratch:
             y_pred = np.dot(X, self.weights) + self.bias
 
             # Bước 3: Tính gradient
-            dw = (1 / n_samples) * np.dot(X.T, (y_pred - y))
-            db = (1 / n_samples) * np.sum(y_pred - y)
+            dw = (1 / n_samples) * np.dot(X.T, (y_pred.flatten() - y.flatten()))
+            db = (1 / n_samples) * np.sum(y_pred.flatten() - y.flatten())
 
             # Bước 4: Cập nhật tham số (Gradient Descent)
             self.weights -= self.learning_rate * dw
