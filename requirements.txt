@@ -1,8 +1,11 @@
+numpy
+pandas
 matplotlib
 seaborn
-pandas
-numpy
-nltk
-bs4
 scikit-learn
-wordcloud
+scipy
+joblib
+cloudpickle
+lightgbm
+jupyter
+nbclient
